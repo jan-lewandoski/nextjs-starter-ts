@@ -6,10 +6,10 @@ const Home: NextPage = () => {
   const { t } = useTranslation()
 
   return (
-    <div>
+    <div className="bg-black text-white">
       <h1>{t('common:yes')}</h1>
       <h1>{t('home:hero.title')}</h1>
-      <p>{t('home:hero.description')}</p>
+      <p className="text-lg">{t('home:hero.description')}</p>
     </div>
   )
 }
