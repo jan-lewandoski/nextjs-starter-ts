@@ -1,5 +1,7 @@
 {
   "/": "Start",
+  "/products": "Produkty",
   "/about": "O nas",
-  "/contact": "Kontakt"
+  "/contact": "Kontakt",
+  "/users": "Uzytkownicy"
 }

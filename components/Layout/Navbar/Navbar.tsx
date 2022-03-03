@@ -2,7 +2,7 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import NavLink from './NavLink'
 
-const tabs: string[] = ['/', '/about', '/contact']
+const tabs: string[] = ['/', '/products', '/about', '/contact']
 
 const isTabActive = (currentPath: string, href: string) => {
   if (href === '/') return currentPath === '/'

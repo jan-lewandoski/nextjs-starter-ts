@@ -10,7 +10,7 @@ const NavLink = ({ name, href, active }: NavLinkProps) => {
   return (
     <li
       key={href}
-      className={`h-fit mx-4 transition ease-in-out delay-150 ${
+      className={`whitespace-nowrap h-fit mx-4 transition ease-in-out delay-150 ${
         active ? 'underline underline-offset-4' : 'no-underline'
       }`}
     >
