@@ -3,6 +3,14 @@
   "extends": ["next/core-web-vitals", "plugin:jsx-a11y/recommended", "prettier"],
   "rules": {
     "no-unused-vars": "error",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ]
   }
 }

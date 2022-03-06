@@ -7,7 +7,7 @@ const tabs: string[] = ['/', '/products', '/about', '/contact']
 const isTabActive = (currentPath: string, href: string) => {
   if (href === '/') return currentPath === '/'
 
-  return currentPath.startsWith(href)
+  return currentPath.endsWith(href)
 }
 
 const Navbar = () => {

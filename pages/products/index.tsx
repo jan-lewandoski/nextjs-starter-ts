@@ -8,7 +8,7 @@ interface ProductsPageProps {
 
 const ProductsPage = ({ products }: ProductsPageProps) => {
   return (
-    <div className="md:p-4 lg:p-8 max-w-xxl m-auto grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+    <div className="md:p-4 lg:p-6 xl:p-8 max-w-xxl m-auto grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
       {products.map((product: Product) => (
         <ProductCard key={product.id} product={product} />
       ))}
