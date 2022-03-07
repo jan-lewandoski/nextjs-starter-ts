@@ -1,3 +1,4 @@
+import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { Product } from '../../types/products/Product'
@@ -16,13 +17,13 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
   )
 }
 
-export const getStaticProps = async ({ locale }: { locale: string }) => {
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
   const res = await fetch('https://fakestoreapi.com/products')
   const products: Product[] = await res.json()
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'navigation'])),
+      ...(await serverSideTranslations(locale || 'en', ['common', 'navigation'])),
       products,
     },
   }

@@ -1,4 +1,4 @@
-import { GetStaticPropsContext } from 'next'
+import { GetStaticPathsContext, GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
 import Breadcrumbs, { BreadrumbItem } from '../../components/Breadcrumbs/Breadcrumbs'
@@ -14,8 +14,8 @@ const ProductPage = ({ product, breadcrumbs }: ProductPageProps) => {
   return (
     <div>
       <Breadcrumbs items={breadcrumbs} />
-      <div className="px-8 py-10 flex w-100 align-middle justify-between">
-        <div className="w-2/5 max-w-md px-8">
+      <div className="flex flex-col px-4 py-6 w-100 lg:flex-row lg:justify-between lg:px-8 lg:py-10">
+        <div className="w-1/2 max-w-sm self-center lg:w-2/5 lg:max-w-md lg:px-8">
           <Image
             width="100%"
             height="100%"
@@ -25,23 +25,29 @@ const ProductPage = ({ product, breadcrumbs }: ProductPageProps) => {
             alt={`${product.title} image`}
           />
         </div>
-        <div className="w-3/5 px-8 grid gap-4 h-fit">
+        <div className="mt-4 grid gap-4 h-fit lg:w-3/5 lg:px-8 lg:mt-4">
           <h1 className="text-6xl font-bold">{product.title}</h1>
           <p className="text-lg font-semibold">${product.price}</p>
           <p className="text-md text-gray-700">{product.description}</p>
-          <Button onClick={() => {}}> Add to cart </Button>
+          <Button className="w-full lg:w-fit" onClick={() => {}}>
+            Add to cart
+          </Button>
         </div>
       </div>
     </div>
   )
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
   const res = await fetch(`https://fakestoreapi.com/products`)
   const products: Product[] = await res.json()
 
   return {
-    paths: products.map((product) => ({ params: { productId: product.id.toString() } })),
+    paths: locales
+      ?.map((locale) =>
+        products.map((product) => ({ params: { productId: product.id.toString() }, locale })),
+      )
+      .flat(),
     fallback: false,
   }
 }
