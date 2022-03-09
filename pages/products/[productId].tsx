@@ -1,6 +1,7 @@
 import { GetStaticPathsContext, GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
+import { INITIAL_PAGINATION } from '../../constants/products-constants'
 import Breadcrumbs, { BreadrumbItem } from '../../components/Breadcrumbs/Breadcrumbs'
 import Button from '../../components/Button/Buttons'
 import { Product } from '../../types/products/Product'
@@ -39,7 +40,9 @@ const ProductPage = ({ product, breadcrumbs }: ProductPageProps) => {
 }
 
 export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
-  const res = await fetch(`https://fakestoreapi.com/products`)
+  const res = await fetch(
+    `https://naszsklep-api.vercel.app/api/products?take=${INITIAL_PAGINATION.take}&offset=${INITIAL_PAGINATION.offset}`,
+  )
   const products: Product[] = await res.json()
 
   return {
@@ -48,7 +51,7 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
         products.map((product) => ({ params: { productId: product.id.toString() }, locale })),
       )
       .flat(),
-    fallback: false,
+    fallback: 'blocking',
   }
 }
 
@@ -63,8 +66,15 @@ export const getStaticProps = async ({
     }
   }
 
-  const res = await fetch(`https://fakestoreapi.com/products/${params.productId}`)
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${params.productId}`)
   const product: Product = await res.json()
+
+  if (!product) {
+    return {
+      props: {},
+      notFound: true,
+    }
+  }
 
   const breadcrumbs: BreadrumbItem[] = [
     {

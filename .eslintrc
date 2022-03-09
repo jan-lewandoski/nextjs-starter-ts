@@ -4,6 +4,7 @@
   "rules": {
     "no-unused-vars": "error",
     "prefer-const": "error",
+    "react-hooks/exhaustive-deps": 0,
     "jsx-a11y/anchor-is-valid": [
       "error",
       {

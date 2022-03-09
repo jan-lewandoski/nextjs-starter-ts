@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   images: {
-    domains: ['fakestoreapi.com'],
+    domains: ['naszsklep-api.vercel.app'],
   },
 }
 

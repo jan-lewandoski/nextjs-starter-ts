@@ -27,7 +27,7 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
     <nav className="bg-gray-100 p-3 font-sans w-100">
       <ol className="flex">
         {items.map((item, idx) => (
-          <li className="flex" key={item.href}>
+          <li className="flex" key={idx}>
             {idx !== 0 && (
               <span className={`mx-3 ${item.href ? 'font-bold' : 'text-gray-500'}`}>/</span>
             )}
