@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext } from 'next'
+import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect, useState } from 'react'
@@ -47,7 +47,7 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
   )
 }
 
-export const getServerSideProps = async ({ locale }: GetServerSidePropsContext) => {
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
   const res = await fetch(
     `https://naszsklep-api.vercel.app/api/products?take=${INITIAL_PAGINATION.take}&offset=${INITIAL_PAGINATION.offset}`,
   )
