@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect, useState } from 'react'
 import Button from '../../components/Button/Buttons'
@@ -12,6 +13,7 @@ interface ProductsPageProps {
 }
 
 const ProductsPage = ({ products }: ProductsPageProps) => {
+  const { t } = useTranslation()
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>(products)
   const [pagination, setPagination] = useState<Pagination>(INITIAL_PAGINATION)
 
@@ -39,7 +41,7 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
         ))}
       </div>
       <Button className="place-self-center" onClick={loadMoreProducts}>
-        Load more
+        {t('common:load-more')}
       </Button>
     </div>
   )
