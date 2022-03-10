@@ -2,9 +2,11 @@ import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 import Button from '../../components/Button/Button'
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { INITIAL_PAGINATION, OFFSET_INCREMENT } from '../../constants/products-constants'
+import useDidMountEffect from '../../hooks/common/useDidMountEffect'
 import { Pagination } from '../../types/products/Pagination'
 import { Product } from '../../types/products/Product'
 
@@ -12,28 +14,38 @@ interface ProductsPageProps {
   products: Product[]
 }
 
+export const getProducts = async (pagination: Pagination): Promise<Product[]> => {
+  const res = await fetch(
+    `https://naszsklep-api.vercel.app/api/products?take=${pagination.take}&offset=${pagination.offset}`,
+  )
+  const data = await res.json()
+
+  return data
+}
+
 const ProductsPage = ({ products }: ProductsPageProps) => {
   const { t } = useTranslation()
-  const [loading, setLoading] = useState(false)
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>(products)
+
   const [pagination, setPagination] = useState<Pagination>(INITIAL_PAGINATION)
+  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([])
+
+  const { data, isFetching, refetch } = useQuery('products', () => getProducts(pagination), {
+    enabled: false,
+    initialData: products,
+  })
 
   const loadMoreProducts = () => {
     setPagination((pagination) => ({ ...pagination, offset: pagination.offset + OFFSET_INCREMENT }))
   }
 
   useEffect(() => {
-    if (pagination.offset !== INITIAL_PAGINATION.offset) {
-      setLoading(true)
-      ;(async () => {
-        const res = await fetch(
-          `https://naszsklep-api.vercel.app/api/products?take=${pagination.take}&offset=${pagination.offset}`,
-        )
-        const data = await res.json()
-        setDisplayedProducts((products) => [...products, ...data])
-        setLoading(false)
-      })()
+    if (data) {
+      setDisplayedProducts((products) => [...products, ...data])
     }
+  }, [data])
+
+  useDidMountEffect(() => {
+    refetch()
   }, [pagination])
 
   return (
@@ -43,18 +55,15 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-      <Button loading={loading} className="place-self-center" onClick={loadMoreProducts}>
-        {t(loading ? 'common:loading' : 'common:load-more')}
+      <Button loading={isFetching} className="place-self-center" onClick={loadMoreProducts}>
+        {t(isFetching ? 'common:loading' : 'common:load-more')}
       </Button>
     </div>
   )
 }
 
 export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
-  const res = await fetch(
-    `https://naszsklep-api.vercel.app/api/products?take=${INITIAL_PAGINATION.take}&offset=${INITIAL_PAGINATION.offset}`,
-  )
-  const products: Product[] = await res.json()
+  const products: Product[] = await getProducts(INITIAL_PAGINATION)
 
   return {
     props: {
