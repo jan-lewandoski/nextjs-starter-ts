@@ -2,5 +2,6 @@
   "yes": "Yes",
   "no": "No",
   "cancel": "Cancel",
-  "load-more": "Load more"
+  "load-more": "Load more",
+  "loading": "Loading..."
 }

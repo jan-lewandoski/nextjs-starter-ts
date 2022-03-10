@@ -3,7 +3,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
 import { INITIAL_PAGINATION } from '../../constants/products-constants'
 import Breadcrumbs, { BreadrumbItem } from '../../components/Breadcrumbs/Breadcrumbs'
-import Button from '../../components/Button/Buttons'
+import Button from '../../components/Button/Button'
 import { Product } from '../../types/products/Product'
 
 interface ProductPageProps {

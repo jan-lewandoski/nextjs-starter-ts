@@ -2,7 +2,7 @@ import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect, useState } from 'react'
-import Button from '../../components/Button/Buttons'
+import Button from '../../components/Button/Button'
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { INITIAL_PAGINATION, OFFSET_INCREMENT } from '../../constants/products-constants'
 import { Pagination } from '../../types/products/Pagination'
@@ -14,6 +14,7 @@ interface ProductsPageProps {
 
 const ProductsPage = ({ products }: ProductsPageProps) => {
   const { t } = useTranslation()
+  const [loading, setLoading] = useState(false)
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>(products)
   const [pagination, setPagination] = useState<Pagination>(INITIAL_PAGINATION)
 
@@ -23,12 +24,14 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
 
   useEffect(() => {
     if (pagination.offset !== INITIAL_PAGINATION.offset) {
+      setLoading(true)
       ;(async () => {
         const res = await fetch(
           `https://naszsklep-api.vercel.app/api/products?take=${pagination.take}&offset=${pagination.offset}`,
         )
         const data = await res.json()
         setDisplayedProducts((products) => [...products, ...data])
+        setLoading(false)
       })()
     }
   }, [pagination])
@@ -40,8 +43,8 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-      <Button className="place-self-center" onClick={loadMoreProducts}>
-        {t('common:load-more')}
+      <Button loading={loading} className="place-self-center" onClick={loadMoreProducts}>
+        {t(loading ? 'common:loading' : 'common:load-more')}
       </Button>
     </div>
   )
