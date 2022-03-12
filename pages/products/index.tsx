@@ -1,6 +1,7 @@
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import Button from '../../components/Button/Button'
@@ -49,16 +50,24 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
   }, [pagination])
 
   return (
-    <div className="p-4 lg:p-6 xl:p-8 max-w-xxl m-auto grid gap-4">
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
-        {displayedProducts.map((product: Product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+    <>
+      <Head>
+        <title>{t('products:title')}</title>
+        <meta name="description" content={t('products:description')}></meta>
+      </Head>
+
+      <div className="p-4 lg:p-6 xl:p-8 max-w-xxl m-auto grid gap-4">
+        <h1 className="sr-only">Products</h1>
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+          {displayedProducts.map((product: Product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+        <Button loading={isFetching} className="place-self-center" onClick={loadMoreProducts}>
+          {t(isFetching ? 'common:loading' : 'common:load-more')}
+        </Button>
       </div>
-      <Button loading={isFetching} className="place-self-center" onClick={loadMoreProducts}>
-        {t(isFetching ? 'common:loading' : 'common:load-more')}
-      </Button>
-    </div>
+    </>
   )
 }
 
@@ -67,7 +76,7 @@ export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'en', ['common', 'navigation'])),
+      ...(await serverSideTranslations(locale || 'en', ['common', 'navigation', 'products'])),
       products,
     },
   }

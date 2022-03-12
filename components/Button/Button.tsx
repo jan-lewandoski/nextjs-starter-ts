@@ -21,7 +21,7 @@ const Button = ({
     <button
       disabled={disabled || loading}
       onClick={onClick}
-      className={`bg-indigo-500 w-fit hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded flex ${className}`}
+      className={`bg-indigo-600 w-fit hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded flex ${className}`}
     >
       {loading && <Spinner />}
       {children}
