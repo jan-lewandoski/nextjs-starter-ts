@@ -6,6 +6,7 @@ const nextConfig = {
   i18n,
   images: {
     domains: ['naszsklep-api.vercel.app'],
+    formats: ['image/avif', 'image/webp'],
   },
 }
 

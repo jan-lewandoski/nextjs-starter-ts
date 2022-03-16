@@ -18,8 +18,8 @@ const ProductPage = ({ product, breadcrumbs }: ProductPageProps) => {
       <div className="flex flex-col px-4 py-6 w-100 lg:flex-row lg:justify-between lg:px-8 lg:py-10">
         <div className="w-1/2 max-w-sm self-center lg:w-2/5 lg:max-w-md lg:px-8">
           <Image
-            width="100%"
-            height="100%"
+            width="16"
+            height="9"
             layout="responsive"
             objectFit="contain"
             src={product.image}
