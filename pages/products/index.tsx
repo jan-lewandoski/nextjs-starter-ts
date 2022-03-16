@@ -32,9 +32,9 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
         <meta name="description" content={t('products:description')}></meta>
       </Head>
 
-      <div className="p-4 lg:p-6 xl:p-8 max-w-xxl m-auto grid gap-4">
+      <div className="p-4 lg:p-6 xl:p-8 max-w-7xl m-auto grid gap-4">
         <h1 className="sr-only">{t('products:title')}</h1>
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {products.map((product: Product) => (
             <ProductCard key={product.id} product={product} />
           ))}

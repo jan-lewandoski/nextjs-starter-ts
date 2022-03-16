@@ -8,6 +8,9 @@ const nextConfig = {
     domains: ['naszsklep-api.vercel.app'],
     formats: ['image/avif', 'image/webp'],
   },
+  experimental: {
+    scrollRestoration: true,
+  },
 }
 
 module.exports = nextConfig
