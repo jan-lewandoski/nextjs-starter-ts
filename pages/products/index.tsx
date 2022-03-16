@@ -39,9 +39,11 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-        <Button loading={loading} className="place-self-center" onClick={loadMoreProducts}>
-          {t(loading ? 'common:loading' : 'common:load-more')}
-        </Button>
+        {products.length > 0 && (
+          <Button loading={loading} className="place-self-center" onClick={loadMoreProducts}>
+            {t(loading ? 'common:loading' : 'common:load-more')}
+          </Button>
+        )}
       </div>
     </>
   )
