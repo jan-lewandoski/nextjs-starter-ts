@@ -1,17 +1,31 @@
 import { GetStaticPathsContext, GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
-import { INITIAL_PAGINATION } from '../../constants/products-constants'
+import { INITIAL_PAGINATION } from '../../constants/products.constants'
 import Breadcrumbs, { BreadrumbItem } from '../../components/Breadcrumbs/Breadcrumbs'
 import Button from '../../components/Button/Button'
 import { Product } from '../../types/products/Product'
+import api from '../../api/api'
+import { useMemo } from 'react'
 
 interface ProductPageProps {
   product: Product
   breadcrumbs: BreadrumbItem[]
 }
 
-const ProductPage = ({ product, breadcrumbs }: ProductPageProps) => {
+const ProductPage = ({ product }: ProductPageProps) => {
+  const breadcrumbs: BreadrumbItem[] = useMemo(() => {
+    return [
+      {
+        text: 'Products',
+        href: '/products',
+      },
+      {
+        text: product.title,
+      },
+    ]
+  }, [product])
+
   return (
     <div>
       <Breadcrumbs items={breadcrumbs} />
@@ -40,10 +54,7 @@ const ProductPage = ({ product, breadcrumbs }: ProductPageProps) => {
 }
 
 export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
-  const res = await fetch(
-    `https://naszsklep-api.vercel.app/api/products?take=${INITIAL_PAGINATION.take}&offset=${INITIAL_PAGINATION.offset}`,
-  )
-  const products: Product[] = await res.json()
+  const products: Product[] = await api.getProducts(INITIAL_PAGINATION)
 
   return {
     paths: locales
@@ -66,8 +77,7 @@ export const getStaticProps = async ({
     }
   }
 
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${params.productId}`)
-  const product: Product = await res.json()
+  const product: Product = await api.getProduct(params.productId)
 
   if (!product) {
     return {
@@ -76,20 +86,9 @@ export const getStaticProps = async ({
     }
   }
 
-  const breadcrumbs: BreadrumbItem[] = [
-    {
-      text: 'Products',
-      href: '/products',
-    },
-    {
-      text: product.title,
-    },
-  ]
-
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'navigation'])),
-      breadcrumbs,
       product,
     },
   }
