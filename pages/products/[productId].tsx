@@ -9,8 +9,10 @@ import { INITIAL_PAGINATION } from '@constants/products'
 import WithLayout from '@hocs/WithLayout/WithLayout'
 import { Product } from '@customTypes/products/Product'
 import Markdown from '@components/Markdown/Markdown'
-import Head from 'next/head'
 import Rating from '@components/Rating/Rating'
+import { NextSeo } from 'next-seo'
+import { APP_DOMAIN } from '@constants/common'
+import { useRouter } from 'next/router'
 
 interface ProductPageProps {
   product: Product
@@ -30,12 +32,15 @@ const ProductPage = ({ product }: ProductPageProps) => {
     ]
   }, [product])
 
+  const { asPath } = useRouter()
+
   return (
     <>
-      <Head>
-        <title>{product.title}</title>
-        <meta name="description" content={product.description}></meta>
-      </Head>
+      <NextSeo
+        title={product.title}
+        description={product.description}
+        canonical={APP_DOMAIN + asPath}
+      ></NextSeo>
 
       <div>
         <Breadcrumbs items={breadcrumbs} />
