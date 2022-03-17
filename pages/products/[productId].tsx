@@ -11,7 +11,7 @@ import { Product } from '@customTypes/products/Product'
 import Markdown from '@components/Markdown/Markdown'
 import Rating from '@components/Rating/Rating'
 import { NextSeo } from 'next-seo'
-import { APP_DOMAIN } from '@constants/common'
+import { APP_DOMAIN_URL } from '@constants/common'
 import { useRouter } from 'next/router'
 
 interface ProductPageProps {
@@ -39,7 +39,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
       <NextSeo
         title={product.title}
         description={product.description}
-        canonical={APP_DOMAIN + asPath}
+        canonical={APP_DOMAIN_URL + asPath}
       ></NextSeo>
 
       <div>

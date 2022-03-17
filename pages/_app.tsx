@@ -2,15 +2,15 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
 import { appWithTranslation } from 'next-i18next'
-import { QueryClient, QueryClientProvider } from 'react-query'
-
-const queryClient = new QueryClient()
+import { DefaultSeo } from 'next-seo'
+import SEO from '../next-seo.config'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
+      <DefaultSeo {...SEO} />
       <Component {...pageProps} />
-    </QueryClientProvider>
+    </>
   )
 }
 

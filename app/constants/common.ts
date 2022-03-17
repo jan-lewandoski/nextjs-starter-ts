@@ -1,1 +1,1 @@
-export const APP_DOMAIN = 'https://nextjs-starter-ts-jan-lewandoski.vercel.app'
+export const APP_DOMAIN_URL = 'https://nextjs-starter-ts-jan-lewandoski.vercel.app'
