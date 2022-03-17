@@ -2,8 +2,8 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
 import { appWithTranslation } from 'next-i18next'
-import Layout from '../components/Layout/Layout'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Layout from '@components/Layout/Layout'
 
 const queryClient = new QueryClient()
 

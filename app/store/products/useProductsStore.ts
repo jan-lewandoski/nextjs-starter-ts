@@ -1,8 +1,8 @@
+import { Pagination } from 'types/products/Pagination'
+import { Product } from 'types/products/Product'
 import create from 'zustand'
 import api from '../../api/api'
-import { INITIAL_PAGINATION, OFFSET_INCREMENT } from '../../constants/products.constants'
-import { Pagination } from '../../types/products/Pagination'
-import { Product } from '../../types/products/Product'
+import { INITIAL_PAGINATION, OFFSET_INCREMENT } from '@constants/products'
 
 export interface ProductsState {
   products: Product[]

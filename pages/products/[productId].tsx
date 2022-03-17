@@ -1,12 +1,12 @@
 import { GetStaticPathsContext, GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
-import { INITIAL_PAGINATION } from '../../constants/products.constants'
-import Breadcrumbs, { BreadrumbItem } from '../../components/Breadcrumbs/Breadcrumbs'
-import Button from '../../components/Button/Button'
-import { Product } from '../../types/products/Product'
-import api from '../../api/api'
+import { Product } from '../../app/types/products/Product'
 import { useMemo } from 'react'
+import Breadcrumbs, { BreadrumbItem } from '@components/Breadcrumbs/Breadcrumbs'
+import Button from '@components/Button/Button'
+import api from '@api/api'
+import { INITIAL_PAGINATION } from '@constants/products'
 
 interface ProductPageProps {
   product: Product

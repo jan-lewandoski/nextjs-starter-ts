@@ -1,14 +1,14 @@
+import api from '@api/api'
+import Button from '@components/Button/Button'
+import ProductCard from '@components/ProductCard/ProductCard'
+import { INITIAL_PAGINATION } from '@constants/products'
+import useProducts from '@hooks/products/useProducts'
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import Button from '../../components/Button/Button'
-import ProductCard from '../../components/ProductCard/ProductCard'
-import { INITIAL_PAGINATION } from '../../constants/products.constants'
-import useProducts from '../../store/products/useProductsStore'
-import { Product } from '../../types/products/Product'
-import api from '../../api/api'
+import { Product } from '../../app/types/products/Product'
 
 interface ProductsPageProps {
   initialProducts: Product[]

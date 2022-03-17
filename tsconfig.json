@@ -2,6 +2,16 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "app",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@constants/*": ["constants/*"],
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utilss/*"],
+      "@api/*": ["api/*"],
+      "@store/*": ["store/*"],
+      "@types/*": ["types/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
