@@ -3,16 +3,13 @@ import type { AppProps } from 'next/app'
 
 import { appWithTranslation } from 'next-i18next'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import Layout from '@components/Layout/Layout'
 
 const queryClient = new QueryClient()
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
     </QueryClientProvider>
   )
 }

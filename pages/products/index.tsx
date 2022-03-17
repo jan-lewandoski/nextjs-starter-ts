@@ -3,6 +3,7 @@ import Button from '@components/Button/Button'
 import ProductCard from '@components/ProductCard/ProductCard'
 import { INITIAL_PAGINATION } from '@constants/products'
 import useProducts from '@hooks/products/useProducts'
+import WithLayout from 'hocs/WithLayout/WithLayout'
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -60,4 +61,4 @@ export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
   }
 }
 
-export default ProductsPage
+export default WithLayout(ProductsPage)

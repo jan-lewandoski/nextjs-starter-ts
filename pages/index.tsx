@@ -1,3 +1,4 @@
+import WithLayout from '@hocs/WithLayout/WithLayout'
 import type { NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -19,4 +20,4 @@ export const getStaticProps = async ({ locale }: { locale: string }) => ({
   },
 })
 
-export default Home
+export default WithLayout(Home)

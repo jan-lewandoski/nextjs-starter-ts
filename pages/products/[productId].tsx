@@ -1,12 +1,14 @@
 import { GetStaticPathsContext, GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
-import { Product } from '../../app/types/products/Product'
 import { useMemo } from 'react'
 import Breadcrumbs, { BreadrumbItem } from '@components/Breadcrumbs/Breadcrumbs'
 import Button from '@components/Button/Button'
 import api from '@api/api'
 import { INITIAL_PAGINATION } from '@constants/products'
+import WithLayout from '@hocs/WithLayout/WithLayout'
+import { Product } from '@customTypes/products/Product'
+import Markdown from '@components/Markdown/Markdown'
 
 interface ProductPageProps {
   product: Product
@@ -48,6 +50,9 @@ const ProductPage = ({ product }: ProductPageProps) => {
             Add to cart
           </Button>
         </div>
+      </div>
+      <div className="px-4 lg:px-8">
+        <Markdown>{product.longDescription}</Markdown>
       </div>
     </div>
   )
@@ -94,4 +99,4 @@ export const getStaticProps = async ({
   }
 }
 
-export default ProductPage
+export default WithLayout(ProductPage)

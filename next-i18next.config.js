@@ -6,5 +6,4 @@ module.exports = {
     locales: ['en', 'pl'],
     localePath: path.resolve('./public/locales'),
   },
-  useSuspense: false,
 }

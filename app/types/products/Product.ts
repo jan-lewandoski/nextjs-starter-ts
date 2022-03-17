@@ -7,5 +7,6 @@ export interface Product {
   description: string
   category: string
   image: string
+  longDescription: string
   rating: Rating
 }

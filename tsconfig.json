@@ -7,10 +7,11 @@
       "@components/*": ["components/*"],
       "@constants/*": ["constants/*"],
       "@hooks/*": ["hooks/*"],
-      "@utils/*": ["utilss/*"],
+      "@hocs/*": ["hocs/*"],
+      "@utils/*": ["utils/*"],
       "@api/*": ["api/*"],
       "@store/*": ["store/*"],
-      "@types/*": ["types/*"]
+      "@customTypes/*": ["types/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
