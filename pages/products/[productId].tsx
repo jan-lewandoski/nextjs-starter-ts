@@ -9,6 +9,8 @@ import { INITIAL_PAGINATION } from '@constants/products'
 import WithLayout from '@hocs/WithLayout/WithLayout'
 import { Product } from '@customTypes/products/Product'
 import Markdown from '@components/Markdown/Markdown'
+import Head from 'next/head'
+import Rating from '@components/Rating/Rating'
 
 interface ProductPageProps {
   product: Product
@@ -29,32 +31,40 @@ const ProductPage = ({ product }: ProductPageProps) => {
   }, [product])
 
   return (
-    <div>
-      <Breadcrumbs items={breadcrumbs} />
-      <div className="flex flex-col px-4 py-6 w-100 lg:flex-row lg:justify-between lg:px-8 lg:py-10">
-        <div className="w-1/2 max-w-sm self-center lg:w-2/5 lg:max-w-md lg:px-8">
-          <Image
-            width="16"
-            height="9"
-            layout="responsive"
-            objectFit="contain"
-            src={product.image}
-            alt={`${product.title} image`}
-          />
+    <>
+      <Head>
+        <title>{product.title}</title>
+        <meta name="description" content={product.description}></meta>
+      </Head>
+
+      <div>
+        <Breadcrumbs items={breadcrumbs} />
+        <div className="flex flex-col px-4 py-6 w-100 lg:flex-row lg:justify-between lg:px-8 lg:py-10">
+          <div className="w-1/2 max-w-sm self-center lg:w-2/5 lg:max-w-md lg:px-8">
+            <Image
+              width="16"
+              height="9"
+              layout="responsive"
+              objectFit="contain"
+              src={product.image}
+              alt={`${product.title} image`}
+            />
+          </div>
+          <div className="mt-4 grid gap-4 h-fit lg:w-3/5 lg:px-8 lg:mt-4">
+            <h1 className="text-6xl font-bold">{product.title}</h1>
+            <p className="text-lg font-semibold">${product.price}</p>
+            <p className="text-md text-gray-700">{product.description}</p>
+            <Rating rating={product.rating} />
+            <Button className="w-full lg:w-fit" onClick={() => {}}>
+              Add to cart
+            </Button>
+          </div>
         </div>
-        <div className="mt-4 grid gap-4 h-fit lg:w-3/5 lg:px-8 lg:mt-4">
-          <h1 className="text-6xl font-bold">{product.title}</h1>
-          <p className="text-lg font-semibold">${product.price}</p>
-          <p className="text-md text-gray-700">{product.description}</p>
-          <Button className="w-full lg:w-fit" onClick={() => {}}>
-            Add to cart
-          </Button>
+        <div className="px-4 lg:px-8">
+          <Markdown>{product.longDescription}</Markdown>
         </div>
       </div>
-      <div className="px-4 lg:px-8">
-        <Markdown>{product.longDescription}</Markdown>
-      </div>
-    </div>
+    </>
   )
 }
 
