@@ -13,9 +13,13 @@ import Rating from '@components/Rating/Rating'
 import { NextSeo } from 'next-seo'
 import { APP_DOMAIN_URL } from '@constants/common'
 import { useRouter } from 'next/router'
+import { serialize } from 'next-mdx-remote/serialize'
+import { MarkdownParsed } from '@customTypes/MarkdownParsed'
+
+type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
 interface ProductPageProps {
-  product: Product
+  product: ProductWithMarkdown
   breadcrumbs: BreadrumbItem[]
 }
 
@@ -109,7 +113,11 @@ export const getStaticProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'navigation'])),
-      product,
+      product: {
+        ...product,
+        longDescription: await serialize(product.longDescription),
+      },
+      secretKey: process.env.SECRET_KEY,
     },
   }
 }
