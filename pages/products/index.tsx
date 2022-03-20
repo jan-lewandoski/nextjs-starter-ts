@@ -18,7 +18,7 @@ interface ProductsPageProps {
 const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
   const { t } = useTranslation()
 
-  const { products, loading, loadMoreProducts, setProducts } = useProducts()
+  const { products, loading, setProducts, loadMoreProducts } = useProducts()
 
   useEffect(() => {
     if (!products.length) {
