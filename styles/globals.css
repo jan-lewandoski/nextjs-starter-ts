@@ -4,5 +4,10 @@
 
 #nprogress .bar {
   height: 0.25rem !important;
-  background-color: theme('colors.indigo.600') !important;
+  opacity: 1 !important;
+  background: theme('colors.indigo.600') !important;
+}
+
+#nprogress .peg {
+  box-shadow: none !important;
 }

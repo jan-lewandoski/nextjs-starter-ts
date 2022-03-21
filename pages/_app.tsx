@@ -11,9 +11,6 @@ import 'nprogress/nprogress.css'
 
 NProgress.configure({
   showSpinner: false,
-  minimum: 0,
-  speed: 800,
-  easing: 'linear',
 })
 
 Router.events.on('routeChangeStart', () => NProgress.start())
