@@ -1,11 +1,15 @@
-import WithLayout from '@hocs/WithLayout/WithLayout'
+import Layout from '@components/Layout/Layout'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const AboutPage = () => {
   const { t } = useTranslation()
 
-  return <div>{t('about:title')}</div>
+  return (
+    <Layout>
+      <div>{t('about:title')}</div>
+    </Layout>
+  )
 }
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
@@ -14,4 +18,4 @@ export const getStaticProps = async ({ locale }: { locale: string }) => ({
   },
 })
 
-export default WithLayout(AboutPage)
+export default AboutPage

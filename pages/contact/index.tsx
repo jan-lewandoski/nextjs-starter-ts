@@ -1,11 +1,15 @@
-import WithLayout from '@hocs/WithLayout/WithLayout'
+import Layout from '@components/Layout/Layout'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const ContactPage = () => {
   const { t } = useTranslation()
 
-  return <div>{t('contact:title')}</div>
+  return (
+    <Layout>
+      <div>{t('contact:title')}</div>
+    </Layout>
+  )
 }
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
@@ -14,4 +18,4 @@ export const getStaticProps = async ({ locale }: { locale: string }) => ({
   },
 })
 
-export default WithLayout(ContactPage)
+export default ContactPage

@@ -1,12 +1,14 @@
 import api from '@api/api'
 import Button from '@components/Button/Button'
+import Layout from '@components/Layout/Layout'
 import ProductCard from '@components/ProductCard/ProductCard'
+import { APP_DOMAIN_URL } from '@constants/common'
 import { INITIAL_PAGINATION } from '@constants/products'
 import useProducts from '@hooks/products/useProducts'
-import WithLayout from 'hocs/WithLayout/WithLayout'
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { Product } from '../../app/types/products/Product'
@@ -27,11 +29,17 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
   }, [])
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>{t('products:title')}</title>
         <meta name="description" content={t('products:description')}></meta>
       </Head>
+
+      <NextSeo
+        title={t('products:title')}
+        description={t('products:description')}
+        canonical={`${APP_DOMAIN_URL}/products`}
+      ></NextSeo>
 
       <div className="p-4 lg:p-6 xl:p-8 max-w-7xl m-auto grid gap-4">
         <h1 className="sr-only">{t('products:title')}</h1>
@@ -46,7 +54,7 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
           </Button>
         )}
       </div>
-    </>
+    </Layout>
   )
 }
 
@@ -61,4 +69,4 @@ export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
   }
 }
 
-export default WithLayout(ProductsPage)
+export default ProductsPage

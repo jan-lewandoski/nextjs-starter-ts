@@ -6,15 +6,14 @@ import Breadcrumbs, { BreadrumbItem } from '@components/Breadcrumbs/Breadcrumbs'
 import Button from '@components/Button/Button'
 import api from '@api/api'
 import { INITIAL_PAGINATION } from '@constants/products'
-import WithLayout from '@hocs/WithLayout/WithLayout'
 import { Product } from '@customTypes/products/Product'
 import Markdown from '@components/Markdown/Markdown'
 import Rating from '@components/Rating/Rating'
 import { NextSeo } from 'next-seo'
 import { APP_DOMAIN_URL } from '@constants/common'
-import { useRouter } from 'next/router'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MarkdownParsed } from '@customTypes/MarkdownParsed'
+import Layout from '@components/Layout/Layout'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -36,14 +35,12 @@ const ProductPage = ({ product }: ProductPageProps) => {
     ]
   }, [product])
 
-  const { asPath } = useRouter()
-
   return (
-    <>
+    <Layout>
       <NextSeo
         title={product.title}
         description={product.description}
-        canonical={APP_DOMAIN_URL + asPath}
+        canonical={`${APP_DOMAIN_URL}/products/${product.id}`}
       ></NextSeo>
 
       <div>
@@ -73,7 +70,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
           <Markdown>{product.longDescription}</Markdown>
         </div>
       </div>
-    </>
+    </Layout>
   )
 }
 
@@ -122,4 +119,4 @@ export const getStaticProps = async ({
   }
 }
 
-export default WithLayout(ProductPage)
+export default ProductPage

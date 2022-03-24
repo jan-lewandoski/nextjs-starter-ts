@@ -1,4 +1,4 @@
-import WithLayout from '@hocs/WithLayout/WithLayout'
+import Layout from '@components/Layout/Layout'
 import type { NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -7,10 +7,12 @@ const Home: NextPage = () => {
   const { t } = useTranslation()
 
   return (
-    <div>
-      <h1>{t('home:hero.title')}</h1>
-      <p className="text-lg">{t('home:hero.description')}</p>
-    </div>
+    <Layout>
+      <div>
+        <h1>{t('home:hero.title')}</h1>
+        <p className="text-lg">{t('home:hero.description')}</p>
+      </div>
+    </Layout>
   )
 }
 
@@ -20,4 +22,4 @@ export const getStaticProps = async ({ locale }: { locale: string }) => ({
   },
 })
 
-export default WithLayout(Home)
+export default Home
