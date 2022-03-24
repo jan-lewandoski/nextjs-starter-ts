@@ -1,9 +1,10 @@
 import { APP_DOMAIN_URL } from '@constants/common'
+import { NextSeoProps } from 'next-seo'
 
 const title: string = 'Shop'
 const description: string = 'This is a default description of the shop'
 
-const nextSeoConfig = {
+const nextSeoConfig: NextSeoProps = {
   title,
   description,
   openGraph: {

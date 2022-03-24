@@ -1,5 +1,4 @@
 import { Rating } from '@customTypes/products/Rating'
-import Image from 'next/image'
 
 import StarIcon from '../../../public/images/icons/star-icon.svg'
 
@@ -21,14 +20,7 @@ const Rating = ({ rating }: RatingProps) => {
       {stars.map(
         (star) =>
           star < MAX_STARS_LENGTH && (
-            <Image
-              data-testid="star--icon"
-              key={star}
-              src={StarIcon}
-              width="16"
-              height="16"
-              alt="Star"
-            />
+            <StarIcon key={star} data-testid="star--icon" width={24} height={24} fill="#d1b610" />
           ),
       )}
     </div>

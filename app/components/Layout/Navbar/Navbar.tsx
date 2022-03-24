@@ -1,5 +1,6 @@
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
+import Cart from './Cart'
 import NavLink from './NavLink'
 
 const tabs: string[] = ['/', '/products', '/about', '/contact']
@@ -16,12 +17,13 @@ const Navbar = () => {
   const { asPath } = useRouter()
 
   return (
-    <nav className="p-4 w-100 border-b-2">
+    <nav className="p-4 w-100 border-b-2 flex justify-between">
       <ul className="w-100 flex justify-end align-middle">
         {tabs.map((href) => (
           <NavLink key={href} href={href} name={t(href)} active={isTabActive(asPath, href)} />
         ))}
       </ul>
+      <Cart />
     </nav>
   )
 }

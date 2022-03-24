@@ -9,7 +9,6 @@ import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
-import Head from 'next/head'
 import { useEffect } from 'react'
 import { Product } from '../../app/types/products/Product'
 
@@ -30,11 +29,6 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
 
   return (
     <Layout>
-      <Head>
-        <title>{t('products:title')}</title>
-        <meta name="description" content={t('products:description')}></meta>
-      </Head>
-
       <NextSeo
         title={t('products:title')}
         description={t('products:description')}
