@@ -9,7 +9,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
       <Navbar />
-      <main>{children}</main>
+      <main className="mt-16">{children}</main>
     </div>
   )
 }
