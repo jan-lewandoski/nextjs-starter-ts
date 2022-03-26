@@ -1,15 +1,10 @@
-import Layout from '@components/Layout/Layout'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const AboutPage = () => {
   const { t } = useTranslation()
 
-  return (
-    <Layout>
-      <div>{t('about:title')}</div>
-    </Layout>
-  )
+  return <div>{t('about:title')}</div>
 }
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({

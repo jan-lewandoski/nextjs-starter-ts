@@ -1,15 +1,16 @@
 import api from '@api/api'
-import { OFFSET_INCREMENT } from '@constants/products'
 import { Pagination } from '@customTypes/products/Pagination'
 import { Product } from '@customTypes/products/Product'
+import { ProductsStateContext } from 'context/ProductsContext'
 import { useContext } from 'react'
-import { ProductsContext } from '../../../pages/_app'
+
+const LOAD_MORE_PRODUCTS_INCREMENT = 12
 
 const useProducts = () => {
-  const context = useContext(ProductsContext)
+  const context = useContext(ProductsStateContext)
 
   if (!context) {
-    throw new Error('Products context is null')
+    throw new Error('Components should be wrapped in ProductsStateContextProvider')
   }
 
   const { products, setProducts, loading, setLoading, pagination, setPagination } = context
@@ -18,7 +19,7 @@ const useProducts = () => {
     setLoading(true)
     const newPagination: Pagination = {
       ...pagination,
-      offset: pagination.offset + OFFSET_INCREMENT,
+      offset: pagination.offset + LOAD_MORE_PRODUCTS_INCREMENT,
     }
     const newProducts: Product[] = await api.getProducts(newPagination)
     setProducts([...products, ...newProducts])

@@ -5,15 +5,13 @@ import { useMemo } from 'react'
 import Breadcrumbs, { BreadrumbItem } from '@components/Breadcrumbs/Breadcrumbs'
 import Button from '@components/Button/Button'
 import api from '@api/api'
-import { INITIAL_PAGINATION } from '@constants/products'
 import { Product } from '@customTypes/products/Product'
 import Markdown from '@components/Markdown/Markdown'
 import Rating from '@components/Rating/Rating'
 import { NextSeo } from 'next-seo'
 import { APP_DOMAIN_URL } from '@constants/common'
 import { serialize } from 'next-mdx-remote/serialize'
-import { MarkdownParsed } from '@customTypes/MarkdownParsed'
-import Layout from '@components/Layout/Layout'
+import { MarkdownParsed } from '@customTypes/common/MarkdownParsed'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -36,7 +34,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
   }, [product])
 
   return (
-    <Layout>
+    <>
       <NextSeo
         title={product.title}
         description={product.description}
@@ -70,12 +68,12 @@ const ProductPage = ({ product }: ProductPageProps) => {
           <Markdown>{product.longDescription}</Markdown>
         </div>
       </div>
-    </Layout>
+    </>
   )
 }
 
 export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
-  const products: Product[] = await api.getProducts(INITIAL_PAGINATION)
+  const products: Product[] = await api.getProducts({ take: 12, offset: 0 })
 
   return {
     paths: locales

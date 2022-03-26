@@ -1,9 +1,7 @@
 import api from '@api/api'
 import Button from '@components/Button/Button'
-import Layout from '@components/Layout/Layout'
 import ProductCard from '@components/ProductCard/ProductCard'
 import { APP_DOMAIN_URL } from '@constants/common'
-import { INITIAL_PAGINATION } from '@constants/products'
 import useProducts from '@hooks/products/useProducts'
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
@@ -28,7 +26,7 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
   }, [])
 
   return (
-    <Layout>
+    <>
       <NextSeo
         title={t('products:title')}
         description={t('products:description')}
@@ -48,12 +46,12 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
           </Button>
         )}
       </div>
-    </Layout>
+    </>
   )
 }
 
 export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
-  const initialProducts: Product[] = await api.getProducts(INITIAL_PAGINATION)
+  const initialProducts: Product[] = await api.getProducts({ take: 12, offset: 0 })
 
   return {
     props: {

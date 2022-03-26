@@ -1,8 +1,7 @@
-import Layout from '@components/Layout/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const CartPage = () => {
-  return <Layout>CartPage</Layout>
+  return <div>CartPage</div>
 }
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({

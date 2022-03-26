@@ -1,7 +1,7 @@
 import { MDXRemote } from 'next-mdx-remote'
 import Link from 'next/link'
 import stringUtils from '@utils/string.utils'
-import { MarkdownParsed } from '@customTypes/MarkdownParsed'
+import { MarkdownParsed } from '@customTypes/common'
 
 interface MarkdownProps {
   children: MarkdownParsed
