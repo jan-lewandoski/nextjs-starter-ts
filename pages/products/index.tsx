@@ -17,11 +17,11 @@ interface ProductsPageProps {
 const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
   const { t } = useTranslation()
 
-  const { products, loading, setProducts, loadMoreProducts } = useProducts()
+  const { products, loading, changeProducts, loadMoreProducts } = useProducts()
 
   useEffect(() => {
     if (!products.length) {
-      setProducts(initialProducts)
+      changeProducts(initialProducts)
     }
   }, [])
 

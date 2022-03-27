@@ -10,10 +10,10 @@ const useProducts = () => {
   const context = useContext(ProductsStateContext)
 
   if (!context) {
-    throw new Error('Components should be wrapped in ProductsStateContextProvider')
+    throw new Error('You forgot to use ProductsStateContextProvider!')
   }
 
-  const { products, setProducts, loading, setLoading, pagination, setPagination } = context
+  const { products, loading, pagination, setProducts, setLoading, setPagination } = context
 
   const loadMoreProducts = async () => {
     setLoading(true)
@@ -27,7 +27,11 @@ const useProducts = () => {
     setLoading(false)
   }
 
-  return { products, setProducts, loading, setLoading, pagination, setPagination, loadMoreProducts }
+  const changeProducts = (newProducts: Product[]) => {
+    setProducts(newProducts)
+  }
+
+  return { products, loading, pagination, loadMoreProducts, changeProducts }
 }
 
 export default useProducts

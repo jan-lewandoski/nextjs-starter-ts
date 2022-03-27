@@ -9,6 +9,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Layout from '@components/Layout/Layout'
 import { ProductsStateContextProvider } from 'context/ProductsContext'
+import { CartStateContextProvider } from 'context/CartContext'
 
 NProgress.configure({
   showSpinner: false,
@@ -21,10 +22,12 @@ Router.events.on('routeChangeError', () => NProgress.done())
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ProductsStateContextProvider>
-      <Layout>
-        <DefaultSeo {...SEO} />
-        <Component {...pageProps} />
-      </Layout>
+      <CartStateContextProvider>
+        <Layout>
+          <DefaultSeo {...SEO} />
+          <Component {...pageProps} />
+        </Layout>
+      </CartStateContextProvider>
     </ProductsStateContextProvider>
   )
 }
