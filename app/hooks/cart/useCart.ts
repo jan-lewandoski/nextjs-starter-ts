@@ -9,18 +9,35 @@ const useCart = () => {
     throw new Error('You forgot to use CartStateContext!')
   }
 
-  const { cartProducts, setCartProducts } = context
+  const { cartItems, setCartItems } = context
 
   const addToCart = (product: Product) => {
-    setCartProducts((products) => [...products, product])
+    setCartItems((cartItems) => {
+      const existsInCart = cartItems.some(({ id }) => id === product.id)
+
+      if (!existsInCart) {
+        return [...cartItems, { ...product, amount: 1 }]
+      }
+
+      return cartItems.map((item) =>
+        item.id === product.id ? { ...item, amount: item.amount + 1 } : item,
+      )
+    })
   }
 
   const removeFromCart = (removedProduct: Product) => {
-    const filteredProducts = cartProducts.filter(({ id }) => id !== removedProduct.id)
-    setCartProducts(filteredProducts)
+    setCartItems((cartItems) => {
+      return cartItems.map((item) =>
+        item.id === removedProduct.id ? { ...item, amount: item.amount - 1 } : item,
+      )
+    })
   }
 
-  return { cartProducts, addToCart, removeFromCart }
+  const getCartSize = (): number => {
+    return cartItems.reduce((a, b) => a + b.amount, 0)
+  }
+
+  return { cartItems, addToCart, removeFromCart, getCartSize }
 }
 
 export default useCart

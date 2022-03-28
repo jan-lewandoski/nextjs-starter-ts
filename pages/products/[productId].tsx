@@ -3,7 +3,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
 import { useMemo } from 'react'
 import Breadcrumbs, { BreadrumbItem } from '@components/Breadcrumbs/Breadcrumbs'
-import Button from '@components/Button/Button'
 import api from '@api/api'
 import { Product } from '@customTypes/products/Product'
 import Markdown from '@components/Markdown/Markdown'
@@ -12,6 +11,7 @@ import { NextSeo } from 'next-seo'
 import { APP_DOMAIN_URL } from '@constants/common'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MarkdownParsed } from '@customTypes/common/MarkdownParsed'
+import { Button } from '@chakra-ui/react'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -58,10 +58,8 @@ const ProductPage = ({ product }: ProductPageProps) => {
             <h1 className="text-6xl font-bold">{product.title}</h1>
             <p className="text-lg font-semibold">${product.price}</p>
             <p className="text-md text-gray-700">{product.description}</p>
-            <Rating rating={product.rating} />
-            <Button className="w-full lg:w-fit" onClick={() => {}}>
-              Add to cart
-            </Button>
+            <Rating rating={product.rating} size="lg" />
+            <Button colorScheme={'blue'}>Add to cart</Button>
           </div>
         </div>
         <div className="px-4 lg:px-8">

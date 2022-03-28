@@ -1,7 +1,8 @@
 import api from '@api/api'
-import Button from '@components/Button/Button'
+import { Button, SimpleGrid, VStack } from '@chakra-ui/react'
 import ProductCard from '@components/ProductCard/ProductCard'
 import { APP_DOMAIN_URL } from '@constants/common'
+import useCart from '@hooks/cart/useCart'
 import useProducts from '@hooks/products/useProducts'
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
@@ -19,6 +20,8 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
 
   const { products, loading, changeProducts, loadMoreProducts } = useProducts()
 
+  const { addToCart } = useCart()
+
   useEffect(() => {
     if (!products.length) {
       changeProducts(initialProducts)
@@ -26,27 +29,35 @@ const ProductsPage = ({ initialProducts }: ProductsPageProps) => {
   }, [])
 
   return (
-    <>
+    <VStack gap={2} pb={8}>
       <NextSeo
         title={t('products:title')}
         description={t('products:description')}
         canonical={`${APP_DOMAIN_URL}/products`}
       ></NextSeo>
 
-      <div className="p-4 lg:p-6 xl:p-8 max-w-7xl m-auto grid gap-4">
-        <h1 className="sr-only">{t('products:title')}</h1>
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-          {products.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-        {products.length > 0 && (
-          <Button loading={loading} className="place-self-center" onClick={loadMoreProducts}>
-            {t(loading ? 'common:loading' : 'common:load-more')}
-          </Button>
-        )}
-      </div>
-    </>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={4} p={{ base: 2, md: 4 }}>
+        {products.map((product: Product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={addToCart}
+            buttonText={t('common:add-to-cart')}
+          />
+        ))}
+      </SimpleGrid>
+
+      {products.length > 0 && (
+        <Button
+          isLoading={loading}
+          colorScheme="blue"
+          loadingText={t('common:loading')}
+          onClick={loadMoreProducts}
+        >
+          {t('common:load-more')}
+        </Button>
+      )}
+    </VStack>
   )
 }
 

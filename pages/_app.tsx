@@ -10,6 +10,9 @@ import 'nprogress/nprogress.css'
 import Layout from '@components/Layout/Layout'
 import { ProductsStateContextProvider } from 'context/ProductsContext'
 import { CartStateContextProvider } from 'context/CartContext'
+import { ChakraProvider } from '@chakra-ui/react'
+
+import theme from '../theme'
 
 NProgress.configure({
   showSpinner: false,
@@ -21,14 +24,16 @@ Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ProductsStateContextProvider>
-      <CartStateContextProvider>
-        <Layout>
-          <DefaultSeo {...SEO} />
-          <Component {...pageProps} />
-        </Layout>
-      </CartStateContextProvider>
-    </ProductsStateContextProvider>
+    <ChakraProvider theme={theme}>
+      <ProductsStateContextProvider>
+        <CartStateContextProvider>
+          <Layout>
+            <DefaultSeo {...SEO} />
+            <Component {...pageProps} />
+          </Layout>
+        </CartStateContextProvider>
+      </ProductsStateContextProvider>
+    </ChakraProvider>
   )
 }
 
