@@ -1,3 +1,5 @@
-interface CartItem {}
+import { Product } from '@customTypes/products/Product'
 
-export default CartItem
+export interface CartItem extends Product {
+  amount: number
+}

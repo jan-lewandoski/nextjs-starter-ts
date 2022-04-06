@@ -1,31 +1,45 @@
+import { SimpleGrid, VStack, Text, Box } from '@chakra-ui/react'
+import CartItem from '@components/CartItem/CartItem'
 import useCart from '@hooks/cart/useCart'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const CartPage = () => {
-  const { cartItems, getCartSize } = useCart()
+  const { cartItems, getTotalPrice, removeFromCart, setAmount } = useCart()
 
   return (
-    <div className=" grid grid-cols-2 gap-4">
-      <div className="grid gap-2">
-        <div className="rounded p-4 grid gap-2">
-          {cartItems.map((item) => {
-            return (
-              <div key={item.id} className="flex p-4 shadow-sm">
-                <span className="flex-1">
-                  {item.amount} x {item.title}
-                </span>
-                <div className="flex">
-                  <span className="mr-2">${item.amount * item.price}</span>
-                  <span>Usuń</span>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      <div className="font-bold">W koszyku: {getCartSize()}</div>
-    </div>
+    <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4} p={4}>
+      <VStack spacing={4} align={'flex-start'}>
+        {cartItems.map((item) => (
+          <CartItem
+            key={item.id}
+            item={item}
+            onAmountChange={setAmount}
+            onRemove={removeFromCart}
+          />
+        ))}
+      </VStack>
+      <Box
+        border={'1px'}
+        borderColor={'gray.100'}
+        borderRadius={'md'}
+        p={4}
+        display={'flex'}
+        h={'fit-content'}
+        alignSelf={'end'}
+      >
+        <Text
+          color="gray.500"
+          fontWeight="semibold"
+          letterSpacing="wide"
+          fontSize="xs"
+          textTransform="uppercase"
+          flex={1}
+        >
+          Total amount
+        </Text>
+        <Text fontWeight="bold">${getTotalPrice()}</Text>
+      </Box>
+    </SimpleGrid>
   )
 }
 

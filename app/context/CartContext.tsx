@@ -1,10 +1,7 @@
+import { CartItem } from '@customTypes/cart/CartItem'
 import { StateSetter } from '@customTypes/common'
-import { Product } from '@customTypes/products/Product'
-import React, { ReactNode, useState } from 'react'
-
-interface CartItem extends Product {
-  amount: number
-}
+import React, { ReactNode, useEffect, useState } from 'react'
+import { getCartItemsFromStorage, setCartItemsInStorage } from './cartStorage'
 
 export interface CartState {
   cartItems: CartItem[]
@@ -16,6 +13,14 @@ export const CartStateContext = React.createContext<CartState | null>(null)
 
 export const CartStateContextProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
+
+  useEffect(() => {
+    setCartItems(getCartItemsFromStorage())
+  }, [])
+
+  useEffect(() => {
+    setCartItemsInStorage(cartItems)
+  }, [cartItems])
 
   return (
     <CartStateContext.Provider

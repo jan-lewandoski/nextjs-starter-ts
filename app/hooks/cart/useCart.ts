@@ -26,18 +26,28 @@ const useCart = () => {
   }
 
   const removeFromCart = (removedProduct: Product) => {
-    setCartItems((cartItems) => {
-      return cartItems.map((item) =>
-        item.id === removedProduct.id ? { ...item, amount: item.amount - 1 } : item,
-      )
-    })
+    setAmount(removedProduct, 0)
   }
 
-  const getCartSize = (): number => {
-    return cartItems.reduce((a, b) => a + b.amount, 0)
+  const getCartSize = () => {
+    return cartItems.reduce((acc, cur) => acc + cur.amount, 0)
   }
 
-  return { cartItems, addToCart, removeFromCart, getCartSize }
+  const setAmount = (product: Product, amount: number) => {
+    if (amount === 0) {
+      setCartItems((cartItems) => {
+        return cartItems.filter((item) => item.id !== product.id)
+      })
+    } else {
+      return cartItems.map((item) => (item.id === product.id ? { ...item, amount } : item))
+    }
+  }
+
+  const getTotalPrice = () => {
+    return cartItems.map((item) => item.price * item.amount).reduce((acc, cur) => acc + cur, 0)
+  }
+
+  return { cartItems, addToCart, removeFromCart, getCartSize, setAmount, getTotalPrice }
 }
 
 export default useCart
