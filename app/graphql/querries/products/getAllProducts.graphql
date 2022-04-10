@@ -1,0 +1,15 @@
+query GetAllProducts {
+  products {
+    id
+    slug
+    name
+    description
+    price
+    images(first: 1) {
+      url
+    }
+    categories {
+      name
+    }
+  }
+}

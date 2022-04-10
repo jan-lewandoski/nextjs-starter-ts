@@ -1,12 +1,11 @@
-import { gql } from '@apollo/client'
 import { Button, SimpleGrid, VStack } from '@chakra-ui/react'
 import ProductCard from '@components/ProductCard/ProductCard'
 import { APP_DOMAIN_URL } from '@constants/common'
 import useCart from '@hooks/cart/useCart'
 import { apolloClient } from 'graphql/apolloClient'
+import { GetAllProductsDocument, GetAllProductsQuery } from 'graphql/generated/graphql'
 import { InferGetStaticPropsType } from 'next'
 import { NextSeo } from 'next-seo'
-import { Product } from '../../app/types/products/Product'
 
 const ProductsPage = ({ products }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { addToCart } = useCart()
@@ -20,7 +19,7 @@ const ProductsPage = ({ products }: InferGetStaticPropsType<typeof getStaticProp
       ></NextSeo>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={4} p={{ base: 2, md: 4 }}>
-        {products.map((product: Product) => (
+        {products.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -39,23 +38,8 @@ const ProductsPage = ({ products }: InferGetStaticPropsType<typeof getStaticProp
   )
 }
 export const getStaticProps = async () => {
-  const { data } = await apolloClient.query({
-    query: gql`
-      query GetAllProducts {
-        products {
-          id
-          slug
-          name
-          price
-          images(first: 1) {
-            url
-          }
-          categories {
-            name
-          }
-        }
-      }
-    `,
+  const { data } = await apolloClient.query<GetAllProductsQuery>({
+    query: GetAllProductsDocument,
   })
 
   return {

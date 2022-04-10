@@ -11,8 +11,14 @@ import { APP_DOMAIN_URL } from '@constants/common'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MarkdownParsed } from '@customTypes/common/MarkdownParsed'
 import { Button } from '@chakra-ui/react'
-import { gql } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
+import {
+  GetProductBySlugDocument,
+  GetProductBySlugQuery,
+  GetProductBySlugQueryVariables,
+  GetProductsSlugsDocument,
+  GetProductsSlugsQuery,
+} from 'graphql/generated/graphql'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -72,20 +78,14 @@ const ProductPage = ({ product }: ProductPageProps) => {
 }
 
 export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
-  const { data } = await apolloClient.query({
-    query: gql`
-      query GetProductsSlugs {
-        products {
-          slug
-        }
-      }
-    `,
+  const { data } = await apolloClient.query<GetProductsSlugsQuery>({
+    query: GetProductsSlugsDocument,
   })
 
   return {
     paths: locales
       ?.map((locale) =>
-        data.products.map((product: Product) => ({ params: { slug: product.slug }, locale })),
+        data.products.map((product) => ({ params: { slug: product.slug }, locale })),
       )
       .flat(),
     fallback: 'blocking',
@@ -103,28 +103,12 @@ export const getStaticProps = async ({
     }
   }
 
-  const { data } = await apolloClient.query({
+  const { data } = await apolloClient.query<GetProductBySlugQuery, GetProductBySlugQueryVariables>({
     variables: { slug: params.slug },
-    query: gql`
-      query GetProductBySlug($slug: String) {
-        product(where: { slug: $slug }) {
-          id
-          slug
-          name
-          description
-          images(first: 1) {
-            url
-          }
-          categories {
-            name
-          }
-          price
-        }
-      }
-    `,
+    query: GetProductBySlugDocument,
   })
 
-  if (!data.product) {
+  if (!data || !data.product) {
     return {
       props: {},
       notFound: true,
