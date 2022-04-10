@@ -32,12 +32,12 @@ const CartItem = ({ item, onAmountChange, onRemove }: CartItemProps) => {
         width={64}
         height={64}
         objectFit="contain"
-        src={item.image}
-        alt={`${item.title} image`}
+        src={item.images?.length ? item.images[0].url : ''}
+        alt={`${item.name} image`}
       />
       <VStack spacing={2} align={'self-start'} flexGrow={1}>
         <Text fontSize={'md'} fontWeight="bold">
-          {item.title}
+          {item.name}
         </Text>
         <Text
           color="gray.500"
@@ -46,7 +46,7 @@ const CartItem = ({ item, onAmountChange, onRemove }: CartItemProps) => {
           fontSize="xs"
           textTransform="uppercase"
         >
-          {item.category}
+          {item.categories?.length ? item.categories[0].name : ''}
         </Text>
       </VStack>
       <Text color="gray.800" fontWeight="semibold" letterSpacing="wide" fontSize="sm">
