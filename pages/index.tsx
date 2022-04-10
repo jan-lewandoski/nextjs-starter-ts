@@ -1,25 +1,54 @@
-import Layout from '@components/Layout/Layout'
-import type { NextPage } from 'next'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { gql } from '@apollo/client'
+import { apolloClient } from 'graphql/apolloClient'
+import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 
-const Home: NextPage = () => {
-  const { t } = useTranslation()
+const Home = ({ data }: InferGetStaticPropsType<GetStaticProps>) => {
+  // return (
+  //   <Layout>
+  //     <div>
+  //       <h1>{t('home:hero.title')}</h1>
+  //       <p className="text-lg">{t('home:hero.description')}</p>
+  //     </div>
+  //   </Layout>
+  // )
 
   return (
-    <Layout>
-      <div>
-        <h1>{t('home:hero.title')}</h1>
-        <p className="text-lg">{t('home:hero.description')}</p>
-      </div>
-    </Layout>
+    <div>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
   )
 }
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common', 'navigation', 'home'])),
-  },
-})
+interface GetAllProductsResponse {
+  products: Product[]
+}
+
+interface Product {
+  id: string
+  slug: string
+  name: string
+  price: number
+}
+
+export const getStaticProps = async () => {
+  const { data } = await apolloClient.query<GetAllProductsResponse>({
+    query: gql`
+      query GetAllProducts {
+        products {
+          id
+          slug
+          name
+          price
+        }
+      }
+    `,
+  })
+
+  return {
+    props: {
+      data,
+    },
+  }
+}
 
 export default Home

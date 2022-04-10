@@ -13,6 +13,8 @@ import { CartStateContextProvider } from 'context/CartContext'
 import { ChakraProvider } from '@chakra-ui/react'
 
 import theme from '../theme'
+import { ApolloProvider } from '@apollo/client'
+import { apolloClient } from 'graphql/apolloClient'
 
 NProgress.configure({
   showSpinner: false,
@@ -24,16 +26,18 @@ Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <ProductsStateContextProvider>
-        <CartStateContextProvider>
-          <Layout>
-            <DefaultSeo {...SEO} />
-            <Component {...pageProps} />
-          </Layout>
-        </CartStateContextProvider>
-      </ProductsStateContextProvider>
-    </ChakraProvider>
+    <ApolloProvider client={apolloClient}>
+      <ChakraProvider theme={theme}>
+        <ProductsStateContextProvider>
+          <CartStateContextProvider>
+            <Layout>
+              <DefaultSeo {...SEO} />
+              <Component {...pageProps} />
+            </Layout>
+          </CartStateContextProvider>
+        </ProductsStateContextProvider>
+      </ChakraProvider>
+    </ApolloProvider>
   )
 }
 
