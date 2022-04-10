@@ -1,12 +1,11 @@
-import { Rating } from './Rating'
+import { Category, Image } from '@customTypes/common'
 
 export interface Product {
-  id: number
-  title: string
-  price: number
+  id: string
+  name: string
   description: string
-  category: string
-  image: string
-  longDescription: string
-  rating: Rating
+  slug: string
+  price: number
+  images: Image[]
+  categories: Category[]
 }

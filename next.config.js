@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   images: {
-    domains: ['naszsklep-api.vercel.app'],
+    domains: ['naszsklep-api.vercel.app', 'media.graphassets.com'],
     formats: ['image/avif', 'image/webp'],
   },
   experimental: {

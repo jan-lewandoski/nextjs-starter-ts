@@ -3,7 +3,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
 import { useMemo } from 'react'
 import Breadcrumbs, { BreadrumbItem } from '@components/Breadcrumbs/Breadcrumbs'
-import api from '@api/api'
 import { Product } from '@customTypes/products/Product'
 import Markdown from '@components/Markdown/Markdown'
 import Rating from '@components/Rating/Rating'
@@ -12,6 +11,8 @@ import { APP_DOMAIN_URL } from '@constants/common'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MarkdownParsed } from '@customTypes/common/MarkdownParsed'
 import { Button } from '@chakra-ui/react'
+import { gql } from '@apollo/client'
+import { apolloClient } from 'graphql/apolloClient'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -28,7 +29,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
         href: '/products',
       },
       {
-        text: product.title,
+        text: product.name,
       },
     ]
   }, [product])
@@ -36,9 +37,9 @@ const ProductPage = ({ product }: ProductPageProps) => {
   return (
     <>
       <NextSeo
-        title={product.title}
+        title={product.name}
         description={product.description}
-        canonical={`${APP_DOMAIN_URL}/products/${product.id}`}
+        canonical={`${APP_DOMAIN_URL}/products/${product.slug}`}
       ></NextSeo>
 
       <div>
@@ -50,15 +51,15 @@ const ProductPage = ({ product }: ProductPageProps) => {
               height="9"
               layout="responsive"
               objectFit="contain"
-              src={product.image}
-              alt={`${product.title} image`}
+              src={product.images?.length ? product.images[0].url : ''}
+              alt={`${product.name} image`}
             />
           </div>
           <div className="mt-4 grid gap-4 h-fit lg:w-3/5 lg:px-8 lg:mt-4">
-            <h1 className="text-6xl font-bold">{product.title}</h1>
+            <h1 className="text-6xl font-bold">{product.name}</h1>
             <p className="text-lg font-semibold">${product.price}</p>
             <p className="text-md text-gray-700">{product.description}</p>
-            <Rating rating={product.rating} size="lg" />
+            <Rating rating={{ count: 100, rate: 5 }} size="lg" />
             <Button colorScheme={'blue'}>Add to cart</Button>
           </div>
         </div>
@@ -71,12 +72,20 @@ const ProductPage = ({ product }: ProductPageProps) => {
 }
 
 export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
-  const products: Product[] = await api.getProducts({ take: 12, offset: 0 })
+  const { data } = await apolloClient.query({
+    query: gql`
+      query GetProductsSlugs {
+        products {
+          slug
+        }
+      }
+    `,
+  })
 
   return {
     paths: locales
       ?.map((locale) =>
-        products.map((product) => ({ params: { productId: product.id.toString() }, locale })),
+        data.products.map((product: Product) => ({ params: { slug: product.slug }, locale })),
       )
       .flat(),
     fallback: 'blocking',
@@ -86,17 +95,36 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
 export const getStaticProps = async ({
   locale,
   params,
-}: GetStaticPropsContext<{ productId: string }>) => {
-  if (!params?.productId) {
+}: GetStaticPropsContext<{ slug: string }>) => {
+  if (!params?.slug) {
     return {
       props: {},
       notFound: true,
     }
   }
 
-  const product: Product = await api.getProduct(params.productId)
+  const { data } = await apolloClient.query({
+    variables: { slug: params.slug },
+    query: gql`
+      query GetProductBySlug($slug: String) {
+        product(where: { slug: $slug }) {
+          id
+          slug
+          name
+          description
+          images(first: 1) {
+            url
+          }
+          categories {
+            name
+          }
+          price
+        }
+      }
+    `,
+  })
 
-  if (!product) {
+  if (!data.product) {
     return {
       props: {},
       notFound: true,
@@ -107,10 +135,9 @@ export const getStaticProps = async ({
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'navigation'])),
       product: {
-        ...product,
-        longDescription: await serialize(product.longDescription),
+        ...data.product,
+        longDescription: await serialize(data.product.description),
       },
-      secretKey: process.env.SECRET_KEY,
     },
   }
 }

@@ -13,16 +13,16 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, buttonText, onAddToCart }: ProductCardProps) => {
   return (
-    <Link href={`/products/${product.id}`}>
+    <Link href={`/products/${product.slug}`}>
       <a>
-        <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+        <Box maxW={'md'} borderWidth="1px" borderRadius="lg" overflow="hidden">
           <Image
             width="16"
             height="9"
             layout="responsive"
             objectFit="contain"
-            src={product.image}
-            alt={`${product.title} image`}
+            src={product.images?.length ? product.images[0].url : ''}
+            alt={`${product.name} image`}
           />
 
           <SimpleGrid columns={1} p="6" gap={1}>
@@ -38,7 +38,7 @@ const ProductCard = ({ product, buttonText, onAddToCart }: ProductCardProps) => 
                 textTransform="uppercase"
                 ml="2"
               >
-                {product.category}
+                {product.categories?.length ? product.categories[0].name : ''}
               </Box>
             </Box>
 
@@ -48,7 +48,7 @@ const ProductCard = ({ product, buttonText, onAddToCart }: ProductCardProps) => 
 
             <Box>${product.price}</Box>
 
-            <Rating rating={product.rating} size="sm" />
+            <Rating rating={{ count: 100, rate: 5 }} size="sm" />
 
             <Button
               variant={'outline'}
