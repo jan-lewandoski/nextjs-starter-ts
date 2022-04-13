@@ -1,54 +1,14 @@
-import { gql } from '@apollo/client'
-import { apolloClient } from 'graphql/apolloClient'
-import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import Layout from '@components/Layout/Layout'
 
-const Home = ({ data }: InferGetStaticPropsType<GetStaticProps>) => {
-  // return (
-  //   <Layout>
-  //     <div>
-  //       <h1>{t('home:hero.title')}</h1>
-  //       <p className="text-lg">{t('home:hero.description')}</p>
-  //     </div>
-  //   </Layout>
-  // )
-
+const Home = () => {
   return (
-    <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
+    <Layout>
+      <div>
+        <h1>Home page</h1>
+        <p className="text-lg">This is a home page</p>
+      </div>
+    </Layout>
   )
-}
-
-interface GetAllProductsResponse {
-  products: Product[]
-}
-
-interface Product {
-  id: string
-  slug: string
-  name: string
-  price: number
-}
-
-export const getStaticProps = async () => {
-  const { data } = await apolloClient.query<GetAllProductsResponse>({
-    query: gql`
-      query GetAllProducts {
-        products {
-          id
-          slug
-          name
-          price
-        }
-      }
-    `,
-  })
-
-  return {
-    props: {
-      data,
-    },
-  }
 }
 
 export default Home
