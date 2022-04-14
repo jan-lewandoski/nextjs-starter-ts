@@ -1,16 +1,15 @@
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import ContactForm from '@components/ContactForm/ContactForm'
 
 const ContactPage = () => {
-  const { t } = useTranslation()
-
-  return <div>{t('contact:title')}</div>
+  return (
+    <div className="w-full md:w-1/2 lg:w-1/3 m-auto">
+      <ContactForm />
+    </div>
+  )
 }
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common', 'navigation', 'contact'])),
-  },
+export const getStaticProps = async () => ({
+  props: {},
 })
 
 export default ContactPage

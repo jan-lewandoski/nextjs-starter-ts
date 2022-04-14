@@ -30,7 +30,7 @@ const CheckoutForm = () => {
   const onSubmit = handleSubmit((data) => console.log(data))
   return (
     <form onSubmit={onSubmit} className="w-full max-w-lg">
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <h2 className="text-xl font-bold my-4">Contact information</h2>
         <div className="w-full px-3">
           <label
@@ -49,7 +49,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.email?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <h2 className="text-xl font-bold my-4">Payment details</h2>
         <div className="w-full px-3">
           <label
@@ -68,7 +68,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.ccName?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -102,7 +102,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.ccCvc?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <div className="w-full px-3">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -120,7 +120,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.ccNumber?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <h2 className="text-xl font-bold my-4">Shopping address</h2>
         <div className="w-full px-3">
           <label
@@ -139,7 +139,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.email?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <div className="w-full px-3">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -157,7 +157,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.address?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <div className="w-full px-3">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -175,7 +175,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.apartment?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -225,7 +225,7 @@ const CheckoutForm = () => {
           <p className="text-red-500 text-xs italic">{errors.postalCode?.message}</p>
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="flex flex-wrap mx-3 mb-6">
         <h2 className="text-xl font-bold my-4">Billing information</h2>
         <div className="w-full px-3">
           <div className="flex items-center">
