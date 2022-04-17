@@ -7,7 +7,7 @@ export type InputType = 'text' | 'email'
 export type InputProps = {
   id: string
   name: string
-  label: string
+  label?: string
   type?: InputType
   size?: InputSize
   className?: string
@@ -22,7 +22,7 @@ const sizeMap: { [key in InputSize]: string } = {
 
 const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
-    { id, name, label, type = 'text', size = 'medium', className = '', placeholder, ...props },
+    { id, name, label = '', type = 'text', size = 'medium', className = '', placeholder, ...props },
     ref,
   ) => {
     return (

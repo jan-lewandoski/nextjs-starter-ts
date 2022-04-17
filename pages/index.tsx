@@ -1,4 +1,4 @@
-import { Input } from '@components/atomic-design/atoms/Input/Input'
+import Input from '@components/atomic-design/atoms/Input/Input'
 import Layout from '@components/Layout/Layout'
 import classNames from 'classnames'
 
