@@ -1,3 +1,4 @@
+import Button from '@components/atomic-design/atoms/Button/Button'
 import Input from '@components/atomic-design/atoms/Input/Input'
 import Layout from '@components/Layout/Layout'
 import classNames from 'classnames'
@@ -7,6 +8,8 @@ const Home = () => {
   return (
     <Layout>
       <div className="p-8">
+        <Button>Click me</Button>
+        <button className="bg-danger-500">Click me!</button>
         <Input id="xaxa" label="Xaxa" name="xaxa" />
         <h1 className={classNames(className, 'text-xl text-green-500', { 'font-bold': true })}>
           Home page
