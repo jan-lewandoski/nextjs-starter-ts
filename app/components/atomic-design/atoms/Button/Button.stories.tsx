@@ -15,7 +15,7 @@ export default {
       control: { type: 'radio' },
     },
     variant: {
-      options: ['primary', 'secondary', 'danger'],
+      options: ['primary', 'gray', 'danger'],
       control: { type: 'radio' },
     },
   },

@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { forwardRef } from 'react'
 
 type ButtonFill = 'solid' | 'outline'
-type ButtonVariant = 'primary' | 'secondary' | 'danger'
+type ButtonVariant = 'primary' | 'gray' | 'danger'
 type ButtonSize = 'small' | 'medium' | 'large'
 type ButtonType = 'button' | 'submit'
 
@@ -19,7 +19,7 @@ export type ButtonProps = {
 } & React.HTMLAttributes<HTMLButtonElement>
 
 const classes = {
-  base: 'focus:outline-none transition ease-in-out duration-300 rounded',
+  base: 'focus:outline-none transition ease-in-out duration-300 rounded-lg',
   disabled: 'opacity-50 cursor-not-allowed',
   pill: 'rounded-full',
   size: {
@@ -30,22 +30,21 @@ const classes = {
   variant: {
     primary: {
       solid:
-        'bg-primary-500 hover:bg-primary-800 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 text-white',
+        'bg-primary-600 hover:bg-primary-800 focus:ring-2 focus:ring-primary-600 focus:ring-opacity-50 text-white',
       outline:
-        'border-2 border-primary-500 text-primary-500 bg-white hover:bg-primary-800 hover:border-primary-800 hover:text-white focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50',
+        'border-2 border-primary-600 text-primary-600 bg-white hover:bg-primary-800 hover:border-primary-800 hover:text-white focus:ring-2 focus:ring-primary-600 focus:ring-opacity-50',
     },
-
-    secondary: {
+    gray: {
       solid:
-        'bg-secondary-500 hover:bg-secondary-800 focus:ring-2 focus:ring-secondary-500 focus:ring-opacity-50 text-white hover:text-gray-300',
+        'bg-gray-500 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-white hover:text-gray-300',
       outline:
-        'border-2 border-secondary-500 text-secondary-500 bg-white hover:bg-secondary-800 hover:border-secondary-800 hover:text-white focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50',
+        'border-2 border-gray-500 text-gray-500 bg-white hover:bg-gray-600 hover:border-gray-600 hover:text-white focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50',
     },
     danger: {
       solid:
         'bg-danger-500 hover:bg-danger-800 focus:ring-2 focus:ring-danger-500 focus:ring-opacity-50 text-white',
       outline:
-        'border-2 border-danger-500 text-danger-500 bg-white hover:bg-danger-800 hodev:border-danger-800 hover:text-white focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50',
+        'border-2 border-danger-500 text-danger-500 bg-white hover:bg-danger-800 hodev:border-danger-800 hover:text-white focus:ring-2 focus:ring-red-600 focus:ring-opacity-50',
     },
   },
 }
