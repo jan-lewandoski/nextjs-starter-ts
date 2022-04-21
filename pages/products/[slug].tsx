@@ -18,7 +18,9 @@ import {
   GetProductBySlugQueryVariables,
   GetProductsSlugsDocument,
   GetProductsSlugsQuery,
+  useCreateProductReviewMutation,
 } from 'graphql/generated/graphql'
+import ReviewForm, { FormData } from '@components/ReviewForm/ReviewForm'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -40,6 +42,24 @@ const ProductPage = ({ product }: ProductPageProps) => {
     ]
   }, [product])
 
+  const [createReview, { loading }] = useCreateProductReviewMutation()
+
+  const addReview = (data: FormData) => {
+    createReview({
+      variables: {
+        review: {
+          name: 'Dummy User',
+          email: 'user@example.com',
+          product: {
+            connect: {
+              slug: product.slug,
+            },
+          },
+          ...data,
+        },
+      },
+    })
+  }
   return (
     <>
       <NextSeo
@@ -72,6 +92,8 @@ const ProductPage = ({ product }: ProductPageProps) => {
         <div className="px-4 lg:px-8">
           <Markdown>{product.longDescription}</Markdown>
         </div>
+
+        <ReviewForm onSubmit={addReview} loading={loading} />
       </div>
     </>
   )

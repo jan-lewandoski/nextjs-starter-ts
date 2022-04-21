@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, FormErrorMessage, Textarea } from '@chakra-ui/react'
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { useMemo } from 'react'
@@ -16,6 +16,7 @@ export interface FormInputProps<TFormData extends FieldValues> {
   type: Path<InputType>
   placeholder?: string
   label: string
+  inputType?: 'input' | 'textarea'
   errors?: Partial<DeepMap<TFormData, FieldError>>
 }
 
@@ -26,6 +27,7 @@ const FormInput = <TFormData extends Record<string, unknown>>({
   placeholder,
   label,
   errors,
+  inputType = 'input',
 }: FormInputProps<TFormData>) => {
   const isInvalid = useMemo(() => {
     return errors && !!errors[id]?.ref
@@ -33,10 +35,13 @@ const FormInput = <TFormData extends Record<string, unknown>>({
 
   if (!register) return null
 
+  const props = { id, type, placeholder, ...register(id) }
+
   return (
     <FormControl isInvalid={isInvalid}>
       <FormLabel htmlFor={id}>{label}</FormLabel>
-      <Input id={id} type={type} placeholder={placeholder} {...register(id)} />
+      {inputType === 'input' && <Input {...props} />}
+      {inputType === 'textarea' && <Textarea {...props} />}
       {isInvalid && (
         <ErrorMessage
           errors={errors}
