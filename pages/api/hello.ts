@@ -4,14 +4,13 @@ import { config } from '../../config'
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST').status(405).json({ error: 'HTTP method should be POST' })
-    return
+    return res.setHeader('Allow', 'POST').status(405).json({ error: 'HTTP method should be POST' })
   }
 
   const email = req.body.email
 
   if (typeof email !== 'string') {
-    res.status(400).json({})
+    return res.status(400).json({ error: 'Email should be a string' })
   }
 
   const mailerliteResponse = await fetch(

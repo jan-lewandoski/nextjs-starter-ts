@@ -54,10 +54,7 @@ const ReviewForm = ({ loading, onSubmit }: ReviewFormProps) => {
   }
 
   return (
-    <form
-      onSubmit={submitHandler}
-      className="max-w-3xl border border-gray-200 rounded p-4 m-4 md:m-8"
-    >
+    <form onSubmit={submitHandler} className="max-w-3xl border border-gray-200 rounded p-4 ">
       <div className="grid gap-4">
         <h2 className="text-xl font-bold my-2">Leave a review</h2>
 

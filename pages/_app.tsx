@@ -15,6 +15,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme'
 import { ApolloProvider } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 NProgress.configure({
   showSpinner: false,
@@ -24,19 +25,23 @@ Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
+const queryClient = new QueryClient()
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={apolloClient}>
-      <ChakraProvider theme={theme}>
-        <ProductsStateContextProvider>
-          <CartStateContextProvider>
-            <Layout>
-              <DefaultSeo {...SEO} />
-              <Component {...pageProps} />
-            </Layout>
-          </CartStateContextProvider>
-        </ProductsStateContextProvider>
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider theme={theme}>
+          <ProductsStateContextProvider>
+            <CartStateContextProvider>
+              <Layout>
+                <DefaultSeo {...SEO} />
+                <Component {...pageProps} />
+              </Layout>
+            </CartStateContextProvider>
+          </ProductsStateContextProvider>
+        </ChakraProvider>
+      </QueryClientProvider>
     </ApolloProvider>
   )
 }

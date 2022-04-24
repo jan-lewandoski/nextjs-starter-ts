@@ -20,7 +20,10 @@ import {
   GetProductsSlugsQuery,
   useCreateProductReviewMutation,
 } from 'graphql/generated/graphql'
-import ReviewForm, { FormData } from '@components/ReviewForm/ReviewForm'
+import ReviewForm, { FormData as ReviewFormData } from '@components/ReviewForm/ReviewForm'
+import NewsletterForm from '@components/NewsletterForm/NewsletterForm'
+import { useMutation } from 'react-query'
+import { FormData as NewsletterFormData } from '@components/NewsletterForm/NewsletterForm'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -30,21 +33,9 @@ interface ProductPageProps {
 }
 
 const ProductPage = ({ product }: ProductPageProps) => {
-  const breadcrumbs: BreadrumbItem[] = useMemo(() => {
-    return [
-      {
-        text: 'Products',
-        href: '/products',
-      },
-      {
-        text: product.name,
-      },
-    ]
-  }, [product])
+  const [createReview, { loading: addingReview }] = useCreateProductReviewMutation()
 
-  const [createReview, { loading }] = useCreateProductReviewMutation()
-
-  const addReview = (data: FormData) => {
+  const addReview = (data: ReviewFormData) => {
     createReview({
       variables: {
         review: {
@@ -60,6 +51,24 @@ const ProductPage = ({ product }: ProductPageProps) => {
       },
     })
   }
+
+  const { mutate, isLoading: subscribingNewsletter } = useAddToNewsletterMutation()
+
+  const subscribeNewsletter = (data: NewsletterFormData) => {
+    mutate(data)
+  }
+
+  const breadcrumbs: BreadrumbItem[] = useMemo(() => {
+    return [
+      {
+        text: 'Products',
+        href: '/products',
+      },
+      {
+        text: product.name,
+      },
+    ]
+  }, [product])
   return (
     <>
       <NextSeo
@@ -89,11 +98,11 @@ const ProductPage = ({ product }: ProductPageProps) => {
             <Button colorScheme={'blue'}>Add to cart</Button>
           </div>
         </div>
-        <div className="px-4 lg:px-8">
+        <div className="grid gap-4 px-4 lg:px-8 mb-8">
           <Markdown>{product.longDescription}</Markdown>
+          <ReviewForm onSubmit={addReview} loading={addingReview} />
+          <NewsletterForm onSubmit={subscribeNewsletter} loading={subscribingNewsletter} />
         </div>
-
-        <ReviewForm onSubmit={addReview} loading={loading} />
       </div>
     </>
   )
@@ -149,3 +158,12 @@ export const getStaticProps = async ({
 }
 
 export default ProductPage
+
+const useAddToNewsletterMutation = () =>
+  useMutation('subscribe-to-newsletter', async (data: NewsletterFormData) => {
+    await fetch('http://localhost:3000/api/hello', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+  })
