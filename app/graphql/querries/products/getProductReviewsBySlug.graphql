@@ -1,0 +1,15 @@
+fragment reviewContent on Review {
+  content
+  headline
+  rating
+  id
+  email
+}
+
+query GetProductReviews($slug: String!) {
+  product(where: { slug: $slug }) {
+    reviews {
+      ...reviewContent
+    }
+  }
+}

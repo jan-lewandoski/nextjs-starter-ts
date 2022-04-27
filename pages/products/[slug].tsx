@@ -16,14 +16,17 @@ import {
   GetProductBySlugDocument,
   GetProductBySlugQuery,
   GetProductBySlugQueryVariables,
+  GetProductReviewsDocument,
   GetProductsSlugsDocument,
   GetProductsSlugsQuery,
   useCreateProductReviewMutation,
+  useGetProductReviewsQuery,
 } from 'graphql/generated/graphql'
 import ReviewForm, { FormData as ReviewFormData } from '@components/ReviewForm/ReviewForm'
 import NewsletterForm from '@components/NewsletterForm/NewsletterForm'
 import { useMutation } from 'react-query'
 import { FormData as NewsletterFormData } from '@components/NewsletterForm/NewsletterForm'
+import ReviewsList from '@components/ReviewsList/ReviewsList'
 
 type ProductWithMarkdown = Omit<Product, 'longDescription'> & { longDescription: MarkdownParsed }
 
@@ -33,7 +36,13 @@ interface ProductPageProps {
 }
 
 const ProductPage = ({ product }: ProductPageProps) => {
-  const [createReview, { loading: addingReview }] = useCreateProductReviewMutation()
+  // TODO Add useProduct hook
+  const { data: productData } = useGetProductReviewsQuery({
+    variables: { slug: product.slug },
+  })
+  const [createReview, { loading: addingReview }] = useCreateProductReviewMutation({
+    refetchQueries: [{ query: GetProductReviewsDocument, variables: { slug: product.slug } }],
+  })
 
   const addReview = (data: ReviewFormData) => {
     createReview({
@@ -69,6 +78,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
       },
     ]
   }, [product])
+
   return (
     <>
       <NextSeo
@@ -100,6 +110,9 @@ const ProductPage = ({ product }: ProductPageProps) => {
         </div>
         <div className="grid gap-4 px-4 lg:px-8 mb-8">
           <Markdown>{product.longDescription}</Markdown>
+          {!!productData?.product?.reviews?.length && (
+            <ReviewsList reviews={productData.product.reviews} />
+          )}
           <ReviewForm onSubmit={addReview} loading={addingReview} />
           <NewsletterForm onSubmit={subscribeNewsletter} loading={subscribingNewsletter} />
         </div>
