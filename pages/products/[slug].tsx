@@ -17,6 +17,7 @@ import {
   GetProductBySlugQuery,
   GetProductBySlugQueryVariables,
   GetProductReviewsDocument,
+  GetProductReviewsQuery,
   GetProductsSlugsDocument,
   GetProductsSlugsQuery,
   useCreateProductReviewMutation,
@@ -41,20 +42,64 @@ const ProductPage = ({ product }: ProductPageProps) => {
     variables: { slug: product.slug },
   })
   const [createReview, { loading: addingReview }] = useCreateProductReviewMutation({
-    refetchQueries: [{ query: GetProductReviewsDocument, variables: { slug: product.slug } }],
+    // Refetch generalnie jest bezpieczniejszy niz operowanie na cache'u
+    // refetchQueries: [{ query: GetProductReviewsDocument, variables: { slug: product.slug } }],
+    update(cache, result) {
+      // If error while adding a review - errors are available under result.errors
+
+      // TODO Handle error while optimistic update
+
+      const reviewsQuery = cache.readQuery<GetProductReviewsQuery>({
+        query: GetProductReviewsDocument,
+        variables: { slug: product.slug },
+      })
+
+      if (!reviewsQuery?.product?.reviews || !result?.data?.review) {
+        // If cache empty or
+        // If mutation called without optimistic udpate
+        return
+      }
+
+      const newReviewsQuery = {
+        ...reviewsQuery,
+        product: {
+          ...reviewsQuery.product,
+          reviews: [...reviewsQuery.product.reviews, result.data.review],
+        },
+      }
+
+      cache.writeQuery({
+        query: GetProductReviewsDocument,
+        variables: { slug: product.slug },
+        data: newReviewsQuery,
+      })
+    },
   })
 
   const addReview = (data: ReviewFormData) => {
+    const dummyUser = {
+      name: 'Dummy User',
+      email: 'user@example.com',
+    }
     createReview({
       variables: {
         review: {
-          name: 'Dummy User',
-          email: 'user@example.com',
+          name: dummyUser.name,
+          email: dummyUser.email,
           product: {
             connect: {
               slug: product.slug,
             },
           },
+          ...data,
+        },
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        review: {
+          __typename: 'Review',
+          id: Math.floor(-Math.random() * 100000 + 1).toString(),
+          email: dummyUser.email,
           ...data,
         },
       },

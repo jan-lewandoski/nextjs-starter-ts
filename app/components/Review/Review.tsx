@@ -8,8 +8,10 @@ interface ReviewProps {
 }
 
 const Review = ({ review }: ReviewProps) => {
+  const isOptimistic = review.id.startsWith('-')
+
   return (
-    <SimpleGrid gap={2} p={4}>
+    <SimpleGrid gap={2} p={4} opacity={isOptimistic ? 0.5 : 1}>
       <Flex alignItems={'center'}>
         <Avatar mr={2} size={'xs'} name={review.email} />
         <Text fontSize={'xs'}>{review.email}</Text>
