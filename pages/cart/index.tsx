@@ -23,14 +23,8 @@ const CartPage = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(
         cartItems.map((item) => ({
-          price_data: {
-            currency: 'PLN',
-            unit_amount: item.price,
-            product_data: {
-              name: item.name,
-            },
-          },
-          quantity: item.amount,
+          slug: item.slug,
+          amount: item.amount,
         })),
       ),
     })

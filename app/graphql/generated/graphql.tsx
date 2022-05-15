@@ -10384,6 +10384,13 @@ export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetProductsSlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', slug: string }> };
 
+export type GetCheckoutProductsBySlugsQueryVariables = Exact<{
+  slugs?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type GetCheckoutProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string, name: string, slug: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> }> };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']>;
 }>;
@@ -10520,6 +10527,47 @@ export function useGetProductsSlugsLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetProductsSlugsQueryHookResult = ReturnType<typeof useGetProductsSlugsQuery>;
 export type GetProductsSlugsLazyQueryHookResult = ReturnType<typeof useGetProductsSlugsLazyQuery>;
 export type GetProductsSlugsQueryResult = Apollo.QueryResult<GetProductsSlugsQuery, GetProductsSlugsQueryVariables>;
+export const GetCheckoutProductsBySlugsDocument = gql`
+    query GetCheckoutProductsBySlugs($slugs: [String!]) {
+  products(where: {slug_in: $slugs}) {
+    id
+    name
+    slug
+    price
+    images {
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCheckoutProductsBySlugsQuery__
+ *
+ * To run a query within a React component, call `useGetCheckoutProductsBySlugsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCheckoutProductsBySlugsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCheckoutProductsBySlugsQuery({
+ *   variables: {
+ *      slugs: // value for 'slugs'
+ *   },
+ * });
+ */
+export function useGetCheckoutProductsBySlugsQuery(baseOptions?: Apollo.QueryHookOptions<GetCheckoutProductsBySlugsQuery, GetCheckoutProductsBySlugsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCheckoutProductsBySlugsQuery, GetCheckoutProductsBySlugsQueryVariables>(GetCheckoutProductsBySlugsDocument, options);
+      }
+export function useGetCheckoutProductsBySlugsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCheckoutProductsBySlugsQuery, GetCheckoutProductsBySlugsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCheckoutProductsBySlugsQuery, GetCheckoutProductsBySlugsQueryVariables>(GetCheckoutProductsBySlugsDocument, options);
+        }
+export type GetCheckoutProductsBySlugsQueryHookResult = ReturnType<typeof useGetCheckoutProductsBySlugsQuery>;
+export type GetCheckoutProductsBySlugsLazyQueryHookResult = ReturnType<typeof useGetCheckoutProductsBySlugsLazyQuery>;
+export type GetCheckoutProductsBySlugsQueryResult = Apollo.QueryResult<GetCheckoutProductsBySlugsQuery, GetCheckoutProductsBySlugsQueryVariables>;
 export const GetProductBySlugDocument = gql`
     query GetProductBySlug($slug: String) {
   product(where: {slug: $slug}) {
