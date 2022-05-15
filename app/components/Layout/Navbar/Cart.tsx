@@ -8,7 +8,7 @@ const Cart = () => {
     <Link href="/cart">
       <a className="relative d-flex align-middle justify-center" aria-label="Go to shopping cart">
         {cartItems.length > 0 && (
-          <div className=" absolute -bottom-3 -right-3 w-6 h-6 font-bold text-sm rounded-full text-white bg-indigo-800 flex items-center justify-center font-mono">
+          <div className="absolute -bottom-3 -right-3 w-6 h-6 font-bold text-sm rounded-full text-red bg-white flex items-center justify-center font-mono">
             {getCartSize()}
           </div>
         )}

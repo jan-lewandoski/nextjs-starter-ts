@@ -46,7 +46,7 @@ const ProductCard = ({ product, buttonText, onAddToCart }: ProductCardProps) => 
               {product.description}
             </Box>
 
-            <Box>${product.price}</Box>
+            <Box>{product.price / 100} PLN</Box>
 
             <Rating rating={{ count: 100, rate: 5 }} size="sm" />
 

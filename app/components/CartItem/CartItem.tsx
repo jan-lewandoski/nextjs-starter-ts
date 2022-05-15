@@ -50,7 +50,7 @@ const CartItem = ({ item, onAmountChange, onRemove }: CartItemProps) => {
         </Text>
       </VStack>
       <Text color="gray.800" fontWeight="semibold" letterSpacing="wide" fontSize="sm">
-        ${item.price}
+        {item.price / 100} PLN
       </Text>
       <HStack spacing={2} display={'flex'} alignItems={'center'}>
         <Text color="gray.500" fontSize="xs">

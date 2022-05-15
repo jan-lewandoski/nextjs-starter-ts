@@ -39,12 +39,16 @@ const useCart = () => {
         return cartItems.filter((item) => item.id !== product.id)
       })
     } else {
-      return cartItems.map((item) => (item.id === product.id ? { ...item, amount } : item))
+      setCartItems((cartItems) => {
+        return cartItems.map((item) => (item.id === product.id ? { ...item, amount } : item))
+      })
     }
   }
 
   const getTotalPrice = () => {
-    return cartItems.map((item) => item.price * item.amount).reduce((acc, cur) => acc + cur, 0)
+    return (
+      cartItems.map((item) => item.price * item.amount).reduce((acc, cur) => acc + cur, 0) / 100
+    )
   }
 
   return { cartItems, addToCart, removeFromCart, getCartSize, setAmount, getTotalPrice }
