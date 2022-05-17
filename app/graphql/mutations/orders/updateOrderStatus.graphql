@@ -1,0 +1,8 @@
+mutation UpdateOrderStatus($stripeCheckoutId: String!, $status: OrderStatus!) {
+  order: updateOrder(
+    where: { stripeCheckoutId: $stripeCheckoutId }
+    data: { orderStatus: $status }
+  ) {
+    id
+  }
+}

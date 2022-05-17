@@ -1,5 +1,6 @@
 import { apolloClient } from 'graphql/apolloClient'
 import {
+  CreateOrderDocument,
   GetCheckoutProductsBySlugsDocument,
   GetCheckoutProductsBySlugsQuery,
   GetCheckoutProductsBySlugsQueryVariables,
@@ -46,9 +47,33 @@ const checkoutHandler: NextApiHandler = async (req, res) => {
           metadata: { slug: product.slug },
         },
       },
-      adjustable_quantity: { enabled: true, minimum: 1 },
       quantity: body.find((item) => item.slug === product.slug)?.amount,
     })),
+  })
+
+  await apolloClient.mutate({
+    mutation: CreateOrderDocument,
+    variables: {
+      order: {
+        email: 'dummy@user.com',
+        total: stripeCheckoutSession.amount_total,
+        stripeCheckoutId: stripeCheckoutSession.id,
+        orderItems: {
+          create: data.products.map((product) => {
+            const amount = body.find((item) => item.slug === product.slug)?.amount
+            return {
+              quantity: amount,
+              total: amount! * product.price,
+              product: {
+                connect: {
+                  slug: product.slug,
+                },
+              },
+            }
+          }),
+        },
+      },
+    },
   })
 
   return res.status(201).json({ session: stripeCheckoutSession })

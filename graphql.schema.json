@@ -30728,6 +30728,22 @@
             "deprecationReason": null
           },
           {
+            "name": "orderStatus",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "OrderStatus",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt",
             "description": "The time the document was published. Null on documents in draft stage.",
             "args": [],
@@ -31145,6 +31161,22 @@
               "kind": "INPUT_OBJECT",
               "name": "OrderItemCreateManyInlineInput",
               "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "OrderStatus",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -35078,6 +35110,70 @@
             "deprecationReason": null
           },
           {
+            "name": "orderStatus",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderStatus",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus_in",
+            "description": "All values that are contained in given list.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrderStatus",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus_not",
+            "description": "All values that are not equal to given value.",
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderStatus",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus_not_in",
+            "description": "All values that are not contained in given list.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrderStatus",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt",
             "description": null,
             "type": {
@@ -35659,6 +35755,18 @@
             "deprecationReason": null
           },
           {
+            "name": "orderStatus_ASC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus_DESC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt_ASC",
             "description": null,
             "isDeprecated": false,
@@ -35710,6 +35818,41 @@
         "possibleTypes": null
       },
       {
+        "kind": "ENUM",
+        "name": "OrderStatus",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "CANCELLED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CREATED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "FULFILLED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PAID",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "OrderUpdateInput",
         "description": null,
@@ -35733,6 +35876,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "OrderItemUpdateManyInlineInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderStatus",
               "ofType": null
             },
             "defaultValue": null,
@@ -35938,11 +36093,11 @@
             "deprecationReason": null
           },
           {
-            "name": "stripeCheckoutId",
+            "name": "orderStatus",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "ENUM",
+              "name": "OrderStatus",
               "ofType": null
             },
             "defaultValue": null,
@@ -36732,6 +36887,70 @@
             "deprecationReason": null
           },
           {
+            "name": "orderStatus",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderStatus",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus_in",
+            "description": "All values that are contained in given list.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrderStatus",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus_not",
+            "description": "All values that are not equal to given value.",
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderStatus",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orderStatus_not_in",
+            "description": "All values that are not contained in given list.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrderStatus",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt",
             "description": null,
             "type": {
@@ -37280,6 +37499,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stripeCheckoutId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null,
@@ -75474,7 +75705,10 @@
         "name": "defaultOverride",
         "description": null,
         "isRepeatable": false,
-        "locations": ["FIELD_DEFINITION", "INPUT_FIELD_DEFINITION"],
+        "locations": [
+          "FIELD_DEFINITION",
+          "INPUT_FIELD_DEFINITION"
+        ],
         "args": [
           {
             "name": "args",
@@ -75531,7 +75765,11 @@
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
         "isRepeatable": false,
-        "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
+        "locations": [
+          "FIELD",
+          "FRAGMENT_SPREAD",
+          "INLINE_FRAGMENT"
+        ],
         "args": [
           {
             "name": "if",
@@ -76059,6 +76297,18 @@
             "deprecationReason": null
           },
           {
+            "name": "unionFieldDetailsForVirtualMemberSide",
+            "description": "main side details of union field on component",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "unionType",
             "description": "Specifies union type name",
             "type": {
@@ -76148,7 +76398,10 @@
         "name": "permission",
         "description": null,
         "isRepeatable": false,
-        "locations": ["FIELD_DEFINITION", "INPUT_FIELD_DEFINITION"],
+        "locations": [
+          "FIELD_DEFINITION",
+          "INPUT_FIELD_DEFINITION"
+        ],
         "args": [
           {
             "name": "actions",
@@ -76352,7 +76605,9 @@
         "name": "remote",
         "description": null,
         "isRepeatable": false,
-        "locations": ["FIELD_DEFINITION"],
+        "locations": [
+          "FIELD_DEFINITION"
+        ],
         "args": [
           {
             "name": "debugEnabled",
@@ -76532,7 +76787,11 @@
         "name": "skip",
         "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
         "isRepeatable": false,
-        "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
+        "locations": [
+          "FIELD",
+          "FRAGMENT_SPREAD",
+          "INLINE_FRAGMENT"
+        ],
         "args": [
           {
             "name": "if",
@@ -76556,7 +76815,9 @@
         "name": "specifiedBy",
         "description": "Exposes a URL that specifies the behavior of this scalar.",
         "isRepeatable": false,
-        "locations": ["SCALAR"],
+        "locations": [
+          "SCALAR"
+        ],
         "args": [
           {
             "name": "url",

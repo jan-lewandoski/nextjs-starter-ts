@@ -4378,6 +4378,7 @@ export type Order = Node & {
   /** The unique identifier */
   id: Scalars['ID'];
   orderItems: Array<OrderItem>;
+  orderStatus: OrderStatus;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
@@ -4466,6 +4467,7 @@ export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
   orderItems?: InputMaybe<OrderItemCreateManyInlineInput>;
+  orderStatus: OrderStatus;
   stripeCheckoutId: Scalars['String'];
   total: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -5009,6 +5011,13 @@ export type OrderManyWhereInput = {
   orderItems_every?: InputMaybe<OrderItemWhereInput>;
   orderItems_none?: InputMaybe<OrderItemWhereInput>;
   orderItems_some?: InputMaybe<OrderItemWhereInput>;
+  orderStatus?: InputMaybe<OrderStatus>;
+  /** All values that are contained in given list. */
+  orderStatus_in?: InputMaybe<Array<OrderStatus>>;
+  /** All values that are not equal to given value. */
+  orderStatus_not?: InputMaybe<OrderStatus>;
+  /** All values that are not contained in given list. */
+  orderStatus_not_in?: InputMaybe<Array<OrderStatus>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -5087,6 +5096,8 @@ export enum OrderOrderByInput {
   EmailDesc = 'email_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  OrderStatusAsc = 'orderStatus_ASC',
+  OrderStatusDesc = 'orderStatus_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   StripeCheckoutIdAsc = 'stripeCheckoutId_ASC',
@@ -5097,9 +5108,17 @@ export enum OrderOrderByInput {
   UpdatedAtDesc = 'updatedAt_DESC'
 }
 
+export enum OrderStatus {
+  Cancelled = 'CANCELLED',
+  Created = 'CREATED',
+  Fulfilled = 'FULFILLED',
+  Paid = 'PAID'
+}
+
 export type OrderUpdateInput = {
   email?: InputMaybe<Scalars['String']>;
   orderItems?: InputMaybe<OrderItemUpdateManyInlineInput>;
+  orderStatus?: InputMaybe<OrderStatus>;
   stripeCheckoutId?: InputMaybe<Scalars['String']>;
   total?: InputMaybe<Scalars['Int']>;
 };
@@ -5123,7 +5142,7 @@ export type OrderUpdateManyInlineInput = {
 
 export type OrderUpdateManyInput = {
   email?: InputMaybe<Scalars['String']>;
-  stripeCheckoutId?: InputMaybe<Scalars['String']>;
+  orderStatus?: InputMaybe<OrderStatus>;
   total?: InputMaybe<Scalars['Int']>;
 };
 
@@ -5237,6 +5256,13 @@ export type OrderWhereInput = {
   orderItems_every?: InputMaybe<OrderItemWhereInput>;
   orderItems_none?: InputMaybe<OrderItemWhereInput>;
   orderItems_some?: InputMaybe<OrderItemWhereInput>;
+  orderStatus?: InputMaybe<OrderStatus>;
+  /** All values that are contained in given list. */
+  orderStatus_in?: InputMaybe<Array<OrderStatus>>;
+  /** All values that are not equal to given value. */
+  orderStatus_not?: InputMaybe<OrderStatus>;
+  /** All values that are not contained in given list. */
+  orderStatus_not_in?: InputMaybe<Array<OrderStatus>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -5311,6 +5337,7 @@ export type OrderWhereInput = {
 /** References Order record uniquely */
 export type OrderWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
+  stripeCheckoutId?: InputMaybe<Scalars['String']>;
 };
 
 /** Information about pagination in a connection. */
@@ -10367,6 +10394,21 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type UpdateOrderStatusMutationVariables = Exact<{
+  stripeCheckoutId: Scalars['String'];
+  status: OrderStatus;
+}>;
+
+
+export type UpdateOrderStatusMutation = { __typename?: 'Mutation', order?: { __typename?: 'Order', id: string } | null };
+
+export type CreateOrderMutationVariables = Exact<{
+  order: OrderCreateInput;
+}>;
+
+
+export type CreateOrderMutation = { __typename?: 'Mutation', order?: { __typename?: 'Order', id: string } | null };
+
 export type CreateProductReviewMutationVariables = Exact<{
   review: ReviewCreateInput;
 }>;
@@ -10416,6 +10458,76 @@ export const ReviewContentFragmentDoc = gql`
   email
 }
     `;
+export const UpdateOrderStatusDocument = gql`
+    mutation UpdateOrderStatus($stripeCheckoutId: String!, $status: OrderStatus!) {
+  order: updateOrder(
+    where: {stripeCheckoutId: $stripeCheckoutId}
+    data: {orderStatus: $status}
+  ) {
+    id
+  }
+}
+    `;
+export type UpdateOrderStatusMutationFn = Apollo.MutationFunction<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>;
+
+/**
+ * __useUpdateOrderStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrderStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrderStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrderStatusMutation, { data, loading, error }] = useUpdateOrderStatusMutation({
+ *   variables: {
+ *      stripeCheckoutId: // value for 'stripeCheckoutId'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useUpdateOrderStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>(UpdateOrderStatusDocument, options);
+      }
+export type UpdateOrderStatusMutationHookResult = ReturnType<typeof useUpdateOrderStatusMutation>;
+export type UpdateOrderStatusMutationResult = Apollo.MutationResult<UpdateOrderStatusMutation>;
+export type UpdateOrderStatusMutationOptions = Apollo.BaseMutationOptions<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>;
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($order: OrderCreateInput!) {
+  order: createOrder(data: $order) {
+    id
+  }
+}
+    `;
+export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>;
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      order: // value for 'order'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument, options);
+      }
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
+export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
 export const CreateProductReviewDocument = gql`
     mutation CreateProductReview($review: ReviewCreateInput!) {
   review: createReview(data: $review) {
