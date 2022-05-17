@@ -1,9 +1,11 @@
 import { apolloClient } from 'graphql/apolloClient'
 import {
   CreateOrderDocument,
+  CreateOrderMutationVariables,
   GetCheckoutProductsBySlugsDocument,
   GetCheckoutProductsBySlugsQuery,
   GetCheckoutProductsBySlugsQueryVariables,
+  OrderStatus,
 } from 'graphql/generated/graphql'
 import { NextApiHandler } from 'next'
 import { Stripe } from 'stripe'
@@ -51,27 +53,25 @@ const checkoutHandler: NextApiHandler = async (req, res) => {
     })),
   })
 
-  await apolloClient.mutate({
-    mutation: CreateOrderDocument,
-    variables: {
-      order: {
-        email: 'dummy@user.com',
-        total: stripeCheckoutSession.amount_total,
-        stripeCheckoutId: stripeCheckoutSession.id,
-        orderItems: {
-          create: data.products.map((product) => {
-            const amount = body.find((item) => item.slug === product.slug)?.amount
-            return {
-              quantity: amount,
-              total: amount! * product.price,
-              product: {
-                connect: {
-                  slug: product.slug,
-                },
+  await createOrder({
+    order: {
+      email: 'dummy@user.com',
+      total: stripeCheckoutSession.amount_total!,
+      stripeCheckoutId: stripeCheckoutSession.id,
+      orderStatus: OrderStatus.Created,
+      orderItems: {
+        create: data.products.map((product) => {
+          const amount = body.find((item) => item.slug === product.slug)?.amount
+          return {
+            quantity: amount!,
+            total: amount! * product.price,
+            product: {
+              connect: {
+                slug: product.slug,
               },
-            }
-          }),
-        },
+            },
+          }
+        }),
       },
     },
   })
@@ -80,3 +80,10 @@ const checkoutHandler: NextApiHandler = async (req, res) => {
 }
 
 export default checkoutHandler
+
+const createOrder = async (variables: CreateOrderMutationVariables) => {
+  await apolloClient.mutate({
+    mutation: CreateOrderDocument,
+    variables,
+  })
+}
