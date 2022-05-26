@@ -11,7 +11,7 @@ import Layout from '@components/Layout/Layout'
 import { ProductsStateContextProvider } from 'context/ProductsContext'
 import { CartStateContextProvider } from 'context/CartContext'
 import { ChakraProvider } from '@chakra-ui/react'
-
+import { SessionProvider } from 'next-auth/react'
 import theme from '../theme'
 import { ApolloProvider } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
@@ -27,22 +27,24 @@ Router.events.on('routeChangeError', () => NProgress.done())
 
 const queryClient = new QueryClient()
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <ApolloProvider client={apolloClient}>
-      <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={theme}>
-          <ProductsStateContextProvider>
-            <CartStateContextProvider>
-              <Layout>
-                <DefaultSeo {...SEO} />
-                <Component {...pageProps} />
-              </Layout>
-            </CartStateContextProvider>
-          </ProductsStateContextProvider>
-        </ChakraProvider>
-      </QueryClientProvider>
-    </ApolloProvider>
+    <SessionProvider session={session}>
+      <ApolloProvider client={apolloClient}>
+        <QueryClientProvider client={queryClient}>
+          <ChakraProvider theme={theme}>
+            <ProductsStateContextProvider>
+              <CartStateContextProvider>
+                <Layout>
+                  <DefaultSeo {...SEO} />
+                  <Component {...pageProps} />
+                </Layout>
+              </CartStateContextProvider>
+            </ProductsStateContextProvider>
+          </ChakraProvider>
+        </QueryClientProvider>
+      </ApolloProvider>
+    </SessionProvider>
   )
 }
 

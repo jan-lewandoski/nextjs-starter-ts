@@ -31,7 +31,7 @@ const stripeWebhook: NextApiHandler = async (req, res) => {
 export default stripeWebhook
 
 const changeOrderStatus = async (variables: UpdateOrderStatusMutationVariables) => {
-  await apolloClient.mutate<UpdateOrderStatusMutation>({
+  await apolloClient.mutate<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>({
     mutation: UpdateOrderStatusDocument,
     variables,
   })
