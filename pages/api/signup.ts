@@ -2,7 +2,7 @@ import { NextApiHandler } from 'next'
 import { SignupFormSchema } from '../signup'
 
 import * as bcrypt from 'bcrypt'
-import { apolloClient } from 'graphql/apolloClient'
+import { authorizedApolloClient } from 'graphql/apolloClient'
 import {
   CreateAccountDocument,
   CreateAccountMutation,
@@ -15,7 +15,10 @@ const SignupHandler: NextApiHandler = async (req, res) => {
 
     const passwordHash = await bcrypt.hash(password, 12)
 
-    const user = await apolloClient.mutate<CreateAccountMutation, CreateAccountMutationVariables>({
+    const user = await authorizedApolloClient.mutate<
+      CreateAccountMutation,
+      CreateAccountMutationVariables
+    >({
       mutation: CreateAccountDocument,
       variables: {
         email: email,

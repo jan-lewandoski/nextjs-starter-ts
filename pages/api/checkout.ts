@@ -1,4 +1,4 @@
-import { apolloClient } from 'graphql/apolloClient'
+import { apolloClient, authorizedApolloClient } from 'graphql/apolloClient'
 import {
   CreateOrderDocument,
   CreateOrderMutationVariables,
@@ -82,7 +82,7 @@ const checkoutHandler: NextApiHandler = async (req, res) => {
 export default checkoutHandler
 
 const createOrder = async (variables: CreateOrderMutationVariables) => {
-  await apolloClient.mutate({
+  await authorizedApolloClient.mutate({
     mutation: CreateOrderDocument,
     variables,
   })

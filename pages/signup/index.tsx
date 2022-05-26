@@ -1,6 +1,8 @@
 import { Button, Flex } from '@chakra-ui/react'
 import FormInput from '@components/FormInput/FormInput'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -14,6 +16,9 @@ export const SignupFormSchema = yup
   .required()
 
 const SignupPage = () => {
+  const session = useSession()
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -30,8 +35,14 @@ const SignupPage = () => {
     })
   })
 
+  if (session.status === 'authenticated') {
+    router.push('/')
+    return null
+  }
+
   return (
     <Flex w={'100%'}>
+      {JSON.stringify(session, null, 2)}
       <form
         onSubmit={onSubmit}
         className="max-w-3xl  mt-8 mx-auto border border-gray-200 rounded p-4 "
